@@ -5,13 +5,9 @@ from flask import (
 )
 from .startup import getUser, getUserToken, getAccessToken
 
-bp = Blueprint('spotify_auth', __name__, url_prefix='/spotify_auth')
+bp = Blueprint('spotify', __name__, url_prefix='/spotify')
 
-@bp.route('/test')
-def test():
-    return 'hello'
-
-@bp.route('/hello')
+@bp.route('/auth')
 def index():
     response = getUser()
     return redirect(response)
@@ -19,7 +15,7 @@ def index():
 @bp.route('/callback/')
 def joejoe():
     getUserToken(request.args['code'])
-    return 'authenticated'
+    return redirect(url_for('hello'))
 
 @bp.route('/access_token')
 def get_access_token():

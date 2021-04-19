@@ -39,7 +39,7 @@ def create_app(test_config=None):
         getUserToken(request.args['code'])
         return 'authenticated'
 
-    from . import spotify_auth
-    app.register_blueprint(spotify_auth.bp)
+    from . import spotify
+    app.register_blueprint(spotify.bp)
 
     return app

@@ -9,9 +9,9 @@ CLIENT_SECRET = "2ce0f93bbcf84328830798bbe7f1e014"
 #Port and callback url can be changed or ledt to localhost:5000
 PORT = "5000"
 CALLBACK_URL = "http://127.0.0.1"
-PATH = "spotify_auth/callback/"
+PATH = "spotify/callback/"
 #Add needed scope from spotify user
-SCOPE = "playlist-modify-private user-read-currently-playing"
+SCOPE = "playlist-modify-private user-library-modify user-read-private"
 #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown 
 TOKEN_DATA = []
 
