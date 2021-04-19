@@ -35,6 +35,7 @@ def getToken(code, client_id, client_secret, redirect_uri):
 def handleToken(response):
     auth_head = {"Authorization": "Bearer {}".format(response["access_token"])}
     REFRESH_TOKEN = response["refresh_token"]
+    print(str([response["access_token"], auth_head, response["scope"], response["expires_in"]]))
     return [response["access_token"], auth_head, response["scope"], response["expires_in"]]
 
 

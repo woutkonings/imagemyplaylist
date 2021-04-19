@@ -9,19 +9,19 @@ CLIENT_SECRET = "2ce0f93bbcf84328830798bbe7f1e014"
 #Port and callback url can be changed or ledt to localhost:5000
 PORT = "5000"
 CALLBACK_URL = "http://127.0.0.1"
-
+PATH = "spotify_auth/callback/"
 #Add needed scope from spotify user
-SCOPE = "playlist-modify-private"
+SCOPE = "playlist-modify-private user-read-currently-playing"
 #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown 
 TOKEN_DATA = []
 
 
 def getUser():
-    return getAuth(CLIENT_ID, "{}:{}/callback/".format(CALLBACK_URL, PORT), SCOPE)
+    return getAuth(CLIENT_ID, "{}:{}/{}".format(CALLBACK_URL, PORT, PATH), SCOPE)
 
 def getUserToken(code):
     global TOKEN_DATA
-    TOKEN_DATA = getToken(code, CLIENT_ID, CLIENT_SECRET, "{}:{}/callback/".format(CALLBACK_URL, PORT))
+    TOKEN_DATA = getToken(code, CLIENT_ID, CLIENT_SECRET, "{}:{}/{}".format(CALLBACK_URL, PORT, PATH))
  
 def refreshToken(time):
     time.sleep(time)
