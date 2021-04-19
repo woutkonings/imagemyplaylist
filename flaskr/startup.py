@@ -11,7 +11,7 @@ PORT = "5000"
 CALLBACK_URL = "http://127.0.0.1"
 PATH = "spotify/callback/"
 #Add needed scope from spotify user
-SCOPE = "playlist-modify-private user-library-modify user-read-private"
+SCOPE = "playlist-modify-private user-library-modify user-read-private user-follow-read"
 #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown 
 TOKEN_DATA = []
 

@@ -1,10 +1,10 @@
 import os
 
-from flask import Flask
+from flask import Flask, request, render_template
 from . import startup
 from . import flask_spotify_auth
 from .startup import getUser, getUserToken
-from flask import request
+from . import spotify
 
 
 def create_app(test_config=None):
@@ -29,17 +29,17 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    def home():
+        return render_template('home.html')
 
-    @app.route('/callback/')
-    def joejoe():
-        print(request.args['code'])
-        getUserToken(request.args['code'])
-        return 'authenticated'
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
 
-    from . import spotify
+    @app.route('/index')
+    def index():
+        return render_template('index.html')
     app.register_blueprint(spotify.bp)
 
     return app

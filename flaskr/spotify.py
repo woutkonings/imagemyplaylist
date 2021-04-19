@@ -15,7 +15,7 @@ def index():
 @bp.route('/callback/')
 def joejoe():
     getUserToken(request.args['code'])
-    return redirect(url_for('hello'))
+    return redirect('/')
 
 @bp.route('/access_token')
 def get_access_token():
