@@ -19,14 +19,29 @@ class Unsplash():
         
         self.client_id = config.UNSPLASH_CLIENT_ID
         self.client_secret = config.UNSPLASH_CLIENT_SECRET
-        
         self.headers = {
                         "Authorization": "Client-ID " + self.client_id
                         }
         
-        
     def query(self, query, page = 1, per_page = 9):
-        
+        """
+        Performs an Unsplash query based on a string
+
+        Parameters
+        ----------
+        query : String
+            String to query
+        page : int, optional
+            The page of the query to request. The default is 1.
+        per_page : int, optional
+            number of pictures per page to request. The default is 9.
+
+        Returns
+        -------
+        r : Dictionary
+            result of the Unsplash query request
+
+        """
         params = {'page' : page,
                   'per_page' : per_page}
         
@@ -37,14 +52,41 @@ class Unsplash():
         return r
     
     def query_to_display_urls(self, query_result, size = 'small'):
+        """
         
-        # for x in query_result['results']:
-        #     print(x['alt_description'])
-        #     print(x['urls'][size])
+
+        Parameters
+        ----------
+        query_result : Dictionary
+            Json result of the Unsplash API query request
+        size : String, optional
+            The size of the pictures to get. The default is 'small'. Options:
+                full, raw, regular, small, thumb
+
+        Returns
+        -------
+        dict
+            dictionary with the key the picture title and the values the urls
+        """
             
         return {x['alt_description'] : x['urls'][size] for x in query_result['results']}
     
     def save_pictures(self, url_dict, location):
+        """
+        Saves the pictures in an url dict
+
+        Parameters
+        ----------
+        url_dict : Dictionary
+            dictionary with the key the picture title and the values the urls
+        location : String
+            path to location to save file
+
+        Returns
+        -------
+        None.
+
+        """
         
         for name, url in url_dict.items():
             r = requests.get(url, allow_redirects=True)

@@ -91,7 +91,20 @@ class Spotify():
         return playlist_dict
     
     def get_playlist_tracks(self, playlist_id):
-        #TODO: method comment
+        """
+        Gets all the tracks in a playlist
+
+        Parameters
+        ----------
+        playlist_id : String
+            Spotify playlist ID
+
+        Returns
+        -------
+        res_list : List
+            List of spotify song data
+
+        """
         
         playlistUrl = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
         
@@ -109,13 +122,21 @@ class Spotify():
         
         return res_list
     
-    
-    def get_songs_feature(self, playlist_dict, feature):
-        #TODO: method comment
-        return [x['track'][feature] for x in playlist_dict['tracks']['items']]
-    
     def get_audio_features(self, song_ids):
-        #TODO: method comment
+        """
+        Returns audio features for a list of song IDs
+
+        Parameters
+        ----------
+        song_ids : List
+            list of spotify song IDs
+
+        Returns
+        -------
+        res_list : List
+            List of Json of audio features.
+
+        """
         base_url = 'https://api.spotify.com/v1/audio-features'
         
         start=100
@@ -136,6 +157,21 @@ class Spotify():
         return res_list
     
     def get_audio_analysis(self, song_id):
+        """
+        returns the audio analysis for a certain song id
+        returns the duration, key, mode and tempo
+
+        Parameters
+        ----------
+        song_id : String
+            Spotify song ID
+
+        Returns
+        -------
+        output : dictionary
+            dictionary of the song features
+
+        """
         #TODO: method comment
         
         req_url = f'https://api.spotify.com/v1/audio-analysis/{song_id}'
@@ -148,7 +184,20 @@ class Spotify():
     
     
     def get_genres(self, artist_ids):
-        #TODO: method comment
+        """
+        Gets the genres for a list of artist ids
+
+        Parameters
+        ----------
+        artist_ids : List
+            List of genre IDs
+
+        Returns
+        -------
+        res_list : List
+            List of list of genres
+
+        """
         
         base_url = 'https://api.spotify.com/v1/artists'
         num_of_artists = len(artist_ids)
@@ -169,6 +218,21 @@ class Spotify():
         
     
     def get_song_df(self, playlist_id):
+        """
+        Creates a dataframe with all the songs in a playlist with various features
+        such as artist, artist genres, spotify analysis data etc.
+
+        Parameters
+        ----------
+        playlist_id : String
+            Spotify playlist ID
+
+        Returns
+        -------
+        df : Pandas Dataframe
+            Output Dataframe
+
+        """
         #TODO: method comment
         playlist_dict = self.get_playlist(playlist_id)
         playlist_dict['tracks']['items'] = self.get_playlist_tracks(playlist_id)
@@ -196,11 +260,25 @@ class Spotify():
         return df
     
     def genre_query(self, df):
+        """
+        gets the most common genres in the dataframe
+
+        Parameters
+        ----------
+        df : Pandas Dataframe
+            Dataframe with the songs and features
+
+        Returns
+        -------
+        query : String
+            String of the genres to query on
+
+        """
         genres = list(df['Genres'])
         merged = list(itertools.chain(*genres))
-        m = mode(merged)
+        query = mode(merged)
         
-        return m
+        return query
 
 
 if __name__ == "__main__":
