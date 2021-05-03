@@ -79,7 +79,6 @@ class Spotify():
             "client_id": client_id,
             "client_secret": client_secret
         }
-            
         # Encode as Base64
         message = f"{client_id}:{client_secret}"
         messageBytes = message.encode('ascii')
@@ -87,7 +86,6 @@ class Spotify():
         base64Message = base64Bytes.decode('ascii')
         
         headers = {"Content-Type" : Config.HEADER, "Authorization" : f"Basic {base64Message}"} 
-    
         post = requests.post(Config.SPOTIFY_URL_TOKEN, params=body, headers=headers)
         print(post.text)
         return self.handleToken(json.loads(post.text))
@@ -116,7 +114,7 @@ class Spotify():
         return self.getAuth(self.client_id, "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH), Config.SCOPE)
     
     def getUserToken(self, code):
-        self.token_data = self.getToken(code, self.client_id, self.client_id, "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH))
+        self.token_data = self.getToken(code, self.client_id, self.client_secret, "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH))
      
     def refreshToken(self, time):
         time.sleep(time)

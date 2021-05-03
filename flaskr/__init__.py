@@ -42,11 +42,15 @@ def create_app(test_config=None):
     @app.route('/index')
     def index():
         return render_template('index.html')
+    
+    @app.route('/session')
+    def show_session():
+        res = str(session.items())
+        return res
+    
     app.register_blueprint(spotify.bp)
     
-    @app.route('/session/')
-    def updating_session():
-        res = str(session.items())
+    
 
 
     return app

@@ -17,9 +17,10 @@ def index():
 @bp.route('/callback/')
 def joejoe():
     sp.getUserToken(request.args['code'])
-    session['user_token'] = sp.token_data
+    session['user_token'] = sp.token_data[0]
     return redirect('/')
 
 @bp.route('/access_token')
 def get_access_token():
     return str(sp.getAccessToken())
+
