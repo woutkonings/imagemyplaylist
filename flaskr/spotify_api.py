@@ -127,7 +127,7 @@ class Spotify():
     
     # CODE FOR QUERIES
     
-    def get_playlist(self, playlist_id):
+    def get_playlist(self, playlist_id, token=None):
         """
         Get the playlist dictionary
     
@@ -144,15 +144,20 @@ class Spotify():
             DESCRIPTION.
     
         """
+        if token is None:
+            token = self.token
+        headers = {
+                        "Authorization": "Bearer " + token
+                        }
         
         playlistUrl = f"https://api.spotify.com/v1/playlists/{playlist_id}"
         
-        res = requests.get(url=playlistUrl, headers=self.headers)
+        res = requests.get(url=playlistUrl, headers=headers)
         playlist_dict = res.json()
         
         return playlist_dict
     
-    def get_playlist_tracks(self, playlist_id):
+    def get_playlist_tracks(self, playlist_id, token = None):
         """
         Gets all the tracks in a playlist
 
@@ -168,6 +173,12 @@ class Spotify():
 
         """
         
+        if token is None:
+            token = self.token
+        headers = {
+                        "Authorization": "Bearer " + token
+                        }
+        
         playlistUrl = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
         
         res_list = []
@@ -176,7 +187,7 @@ class Spotify():
         list_length = 1
         while list_length != 0:
             params = {'offset' : offset}
-            res = requests.get(url=playlistUrl, headers=self.headers, params=params)
+            res = requests.get(url=playlistUrl, headers=headers, params=params)
             r = res.json()['items']
             list_length = len(r)
             res_list = res_list + r
@@ -184,7 +195,7 @@ class Spotify():
         
         return res_list
     
-    def get_audio_features(self, song_ids):
+    def get_audio_features(self, song_ids, token = None):
         """
         Returns audio features for a list of song IDs
 
@@ -201,6 +212,12 @@ class Spotify():
         """
         base_url = 'https://api.spotify.com/v1/audio-features'
         
+        if token is None:
+            token = self.token
+        headers = {
+                        "Authorization": "Bearer " + token
+                        }
+        
         start=100
         res_list = []
         list_length = 1
@@ -208,7 +225,7 @@ class Spotify():
             songs = song_ids[(start - 100):start]
             text_song_ids = ",".join(songs)
             payload = {'ids' : text_song_ids}
-            res = requests.get(url=base_url, headers=self.headers, params=payload)
+            res = requests.get(url=base_url, headers=headers, params=payload)
             r = res.json()['audio_features']
             if r[0] == None:
                 break
@@ -218,7 +235,7 @@ class Spotify():
         
         return res_list
     
-    def get_audio_analysis(self, song_id):
+    def get_audio_analysis(self, song_id, token = None):
         """
         returns the audio analysis for a certain song id
         returns the duration, key, mode and tempo
@@ -234,10 +251,15 @@ class Spotify():
             dictionary of the song features
 
         """
-        #TODO: method comment
+        
+        if token is None:
+            token = self.token
+        headers = {
+                        "Authorization": "Bearer " + token
+                        }
         
         req_url = f'https://api.spotify.com/v1/audio-analysis/{song_id}'
-        res = requests.get(url=req_url, headers=self.headers)
+        res = requests.get(url=req_url, headers=headers)
         r = res.json()['track']
         
         output_features = ['duration', 'key', 'mode', 'tempo']
@@ -245,7 +267,7 @@ class Spotify():
         return output
     
     
-    def get_genres(self, artist_ids):
+    def get_genres(self, artist_ids, token=None):
         """
         Gets the genres for a list of artist ids
 
@@ -261,6 +283,12 @@ class Spotify():
 
         """
         
+        if token is None:
+            token = self.token
+        headers = {
+                        "Authorization": "Bearer " + token
+                        }
+        
         base_url = 'https://api.spotify.com/v1/artists'
         num_of_artists = len(artist_ids)
         
@@ -271,7 +299,7 @@ class Spotify():
             query_list = artist_ids[(i-1) * 50 : i * 50]
             text_query_list = ",".join(query_list)
             payload = {'ids' : text_query_list}
-            res = requests.get(url=base_url, headers=self.headers, params=payload)
+            res = requests.get(url=base_url, headers=headers, params=payload)
             if 'artists' in res.json():
                 res_list = res_list + res.json()['artists']
         
@@ -352,8 +380,8 @@ if __name__ == "__main__":
     spotify_client_secret = Config.SPOTIFY_CLIENT_SECRET
     token = sp.get_token(spotify_client_id, spotify_client_secret)
     
-    playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs
-    #playlistId = "55oXRfL4wQCPxFMHY3ReFo" # Electro playlist with 31 songs
+    #playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs
+    playlistId = "55oXRfL4wQCPxFMHY3ReFo" # Electro playlist with 31 songs
     
     df = sp.get_song_df(playlistId)
     

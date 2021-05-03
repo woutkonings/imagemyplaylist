@@ -7,18 +7,19 @@ from .spotify_api import Spotify
 
 bp = Blueprint('spotify', __name__, url_prefix='/spotify')
 
-st = Spotify()
+sp = Spotify()
 
 @bp.route('/auth')
 def index():
-    response = st.getUser()
+    response = sp.getUser()
     return redirect(response)
 
 @bp.route('/callback/')
 def joejoe():
-    st.getUserToken(request.args['code'])
+    sp.getUserToken(request.args['code'])
+    session['user_token'] = sp.token_data
     return redirect('/')
 
 @bp.route('/access_token')
 def get_access_token():
-    return str(st.getAccessToken())
+    return str(sp.getAccessToken())
