@@ -123,6 +123,30 @@ class Spotify():
     def getAccessToken(self):
         return self.token_data
     
+    def getUserInfo(self, userToken):
+        
+        headers = {
+                        "Authorization": "Bearer " + userToken
+                        }
+        
+        userUrl =  'https://api.spotify.com/v1/me'
+        
+        res = requests.get(url=userUrl, headers=headers)
+        return res.json()
+    
+    def getUserPlaylists(self, userToken):
+        
+        
+        
+        headers = {
+                        "Authorization": "Bearer " + userToken
+                        }
+        
+        userUrl =  'https://api.spotify.com/v1/me/playlists'
+        
+        res = requests.get(url=userUrl, headers=headers)
+        return res.json()
+    
     # CODE FOR QUERIES
     
     def get_playlist(self, playlist_id, token=None):
@@ -133,8 +157,8 @@ class Spotify():
         ----------
         playlist_id : TYPE
             DESCRIPTION.
-        token : TYPE
-            DESCRIPTION.
+        token : String
+            Spotify access token. Default is the instance app token.
     
         Returns
         -------
@@ -163,6 +187,8 @@ class Spotify():
         ----------
         playlist_id : String
             Spotify playlist ID
+        token : String
+            Spotify access token. Default is the instance app token.
 
         Returns
         -------
@@ -201,6 +227,8 @@ class Spotify():
         ----------
         song_ids : List
             list of spotify song IDs
+        token : String
+            Spotify access token. Default is the instance app token.
 
         Returns
         -------
@@ -242,6 +270,8 @@ class Spotify():
         ----------
         song_id : String
             Spotify song ID
+        token : String
+            Spotify access token. Default is the instance app token.
 
         Returns
         -------
@@ -273,6 +303,8 @@ class Spotify():
         ----------
         artist_ids : List
             List of genre IDs
+        token : String
+            Spotify access token. Default is the instance app token.
 
         Returns
         -------
@@ -315,6 +347,8 @@ class Spotify():
         ----------
         playlist_id : String
             Spotify playlist ID
+        token : String
+            Spotify access token. Default is the instance app token.
 
         Returns
         -------
@@ -380,6 +414,8 @@ if __name__ == "__main__":
     
     #playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs
     playlistId = "55oXRfL4wQCPxFMHY3ReFo" # Electro playlist with 31 songs
+    
+    playlists = sp.getUserPlaylists(Config.USER_TOKEN)
     
     df = sp.get_song_df(playlistId)
     

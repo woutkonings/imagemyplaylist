@@ -4,13 +4,14 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, session
 )
 from .spotify_api import Spotify
+import flaskr
 
 bp = Blueprint('spotify', __name__, url_prefix='/spotify')
 
 sp = Spotify()
 
 @bp.route('/auth')
-def index():
+def auth():
     response = sp.getUser()
     return redirect(response)
 
@@ -18,7 +19,11 @@ def index():
 def joejoe():
     sp.getUserToken(request.args['code'])
     session['user_token'] = sp.token_data[0]
+    print('user_token')
+    print(session['user_token'])
+    session['user_info'] = sp.getUserInfo(session['user_token'])
     return redirect('/')
+    # return redirect(url_for('home'))
 
 @bp.route('/access_token')
 def get_access_token():
