@@ -7,7 +7,7 @@ This is a temporary script file.
 
 
 import base64, json, requests
-from .config import Config
+from flaskr.config import Config
 import pandas as pd
 import numpy as np
 import itertools
@@ -272,7 +272,8 @@ class Spotify():
             text_query_list = ",".join(query_list)
             payload = {'ids' : text_query_list}
             res = requests.get(url=base_url, headers=self.headers, params=payload)
-            res_list = res_list + res.json()['artists']
+            if 'artists' in res.json():
+                res_list = res_list + res.json()['artists']
         
         res_list = [x['genres'] for x in res_list]
         

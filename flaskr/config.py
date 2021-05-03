@@ -11,7 +11,7 @@ class Config():
     
     SPOTIFY_CLIENT_ID  = '9f60eb0d6eef428da8aa960f14074eda'
     SPOTIFY_CLIENT_SECRET = '9e77a91ab0014354bbef9abd03f0f822'
-    SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/authorize/?'
+    SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/nl/authorize/?'
     SPOTIFY_URL_TOKEN = 'https://accounts.spotify.com/api/token/'
     RESPONSE_TYPE = 'code'   
     HEADER = 'application/x-www-form-urlencoded'
