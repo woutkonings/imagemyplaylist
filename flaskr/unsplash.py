@@ -7,10 +7,10 @@ Created on Fri Apr 16 00:05:12 2021
 """
 
 import requests
-from .config import Config
+from flaskr.config import Config
 import base64
 import pandas as pd
-from .spotify_api import Spotify
+from flaskr.spotify_api import Spotify
 
 
 class Unsplash():

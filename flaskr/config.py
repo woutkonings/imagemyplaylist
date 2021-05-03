@@ -20,7 +20,7 @@ class Config():
     CALLBACK_URL = "http://127.0.0.1"
     PATH = "spotify/callback/"
     #Add needed scope from spotify user
-    SCOPE = "playlist-modify-private user-library-modify user-read-private user-follow-read"
+    SCOPE = "playlist-modify-private playlist-modify-public user-library-modify user-read-private user-follow-read ugc-image-upload"
     #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown 
     
     
@@ -28,7 +28,7 @@ class Config():
     UNSPLASH_CLIENT_SECRET = '0avVm46iEXEzUG5p1UMprygoJJIUSYgAGqScwu2Lnqs'
     
     
-    USER_TOKEN = 'BQDY9ceLrgKqWo-mpTqc4Qkz7eE5gRLmmjsOxbPpcZcT1Q7BJjfdik4BvTc-eJLuG0LJAbedwOM4uAA6Vo7iUvFFG2dT3v9bl86TRWAmU5Hce3uKLqekf9K4Oa7F7ihsuIiDe76F_QD41SZKmNvE8Sg0tlfUxGHyvih-xjO2tPFx3-09Tm-bAAm73gn8tkCV-hOfj5u41qOZhA'
+    USER_TOKEN = 'BQB1bQnGv3zWQFIBbXfqBOiILqwPfc0yc_zGSx4hMsFo7wdBmFDH4zLW8Pjb6S5JhVHgnnglBbuqM9M8eC_CerEW78udALBKFZycsxeuLnjGdtcSgAuOtr0z7fBTg76jacN-AQCUNWmLZrx39E9QhJhFuuUX5VziPVBFQNf_7qaHbpy8_MTZ2CgqhLdNiarRoTwRI1nzcGsByh2VfK8DOP-_e6FqFO--nt-LjUMhS0GTJw'
     
     def set_global(name, x):
         globals()[name] = x

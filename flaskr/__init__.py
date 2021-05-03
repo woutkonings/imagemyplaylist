@@ -61,8 +61,6 @@ def create_app(test_config=None):
         else: 
             playlists = sp.getUserPlaylists(session['user_token'])['items']
         
-        print(playlists)
-        
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
                                    playlists_data=playlists)
@@ -73,10 +71,24 @@ def create_app(test_config=None):
         df = sp.get_song_df(playlistID)
         query = sp.genre_query(df)
         
-        images = us.query(query)
+        result = us.query(query)
+        images = us.query_to_display_urls(result, size = 'thumb')
         
+        return render_template('query.html', query=images, playlistID=playlistID)
+    
+    @app.route('/setimage')
+    def setImage(playlistID=None):
         
-        return render_template('query.html', query=images)
+        request_dict = request.args.copy()
+        
+        playlistID  = request_dict.pop('playlistID', None)
+        imageUrl  = request_dict.pop('imageUrl', None)
+        for key in request_dict.keys():
+            imageUrl = imageUrl + "&" + key + "=" + request_dict.get(key)
+        
+        res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
+        
+        return res + playlistID + imageUrl
     
     
     

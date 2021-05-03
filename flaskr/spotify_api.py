@@ -402,7 +402,26 @@ class Spotify():
         query = mode(merged)
         
         return query
-
+    
+    def set_playlist_image(self, playlistID, imageUrl, userToken):
+        
+        # playlistID = '7m9C2zzjvVjdsMbmfOEpdL'
+        # imageUrl = 'https://images.unsplash.com/photo-1523556903714-840fac054407?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMjM1ODB8MHwxfHNlYXJjaHwxfHxmbG9hdCUyMGhvdXNlfGVufDB8fHx8MTYyMDA2NDMwMw&ixlib=rb-1.2.1&q=80&w=200'
+        # response = requests.get("https://images.unsplash.com/photo-1523556903714-840fac054407?crop=entropy")
+        url = f'https://api.spotify.com/v1/playlists/{playlistID}/images'
+        
+        encodedimg = base64.b64encode(requests.get(imageUrl).content)
+        
+        headers = {
+                        "Authorization": "Bearer " + userToken,
+                         'Content-Type': 'image/jpeg'
+                        }
+        
+        payload = {'body' : encodedimg}
+        
+        res = requests.put(url=url, headers=headers, data=encodedimg)
+        
+        return str(res.status_code) + str(res.reason)
 
 if __name__ == "__main__":
     
