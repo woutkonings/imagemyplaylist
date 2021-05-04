@@ -7,18 +7,18 @@ Created on Fri Apr 16 00:05:12 2021
 """
 
 import requests
-import config
+from flaskr.config import Config
 import base64
 import pandas as pd
-import spotify
+from flaskr.spotify_api import Spotify
 
 
 class Unsplash():
     
     def __init__(self):
         
-        self.client_id = config.UNSPLASH_CLIENT_ID
-        self.client_secret = config.UNSPLASH_CLIENT_SECRET
+        self.client_id = Config.UNSPLASH_CLIENT_ID
+        self.client_secret = Config.UNSPLASH_CLIENT_SECRET
         self.headers = {
                         "Authorization": "Client-ID " + self.client_id
                         }
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     
     
     
-    sp = spotify.Spotify()
+    sp = Spotify()
     playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs    
     df = sp.get_song_df(playlistId)
     query = sp.genre_query(df)
