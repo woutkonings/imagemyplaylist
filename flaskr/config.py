@@ -21,7 +21,7 @@ class Config():
     CALLBACK_URL_LOCAL = "http://192.168.1.108:2604"
     PATH = "spotify/callback/"
     #Add needed scope from spotify user
-    SCOPE = "playlist-modify-private playlist-modify-public user-library-modify user-read-private user-follow-read ugc-image-upload"
+    SCOPE = "playlist-modify-private playlist-modify-public user-library-modify user-read-private user-follow-read ugc-image-upload playlist-read-private playlist-read-collaborative"
     #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown 
     
     

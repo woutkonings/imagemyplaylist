@@ -68,7 +68,7 @@ class Spotify():
         return token
     
     def getAuth(self, client_id, redirect_uri, scope):
-        data = "{}client_id={}&response_type=code&redirect_uri={}&scope={}".format(Config.SPOTIFY_URL_AUTH, client_id, redirect_uri, scope) 
+        data = "{}client_id={}&response_type=code&redirect_uri={}&scope={}&show_dialog=true".format(Config.SPOTIFY_URL_AUTH, client_id, redirect_uri, scope) 
         return data
 
     def getToken(self, code, client_id, client_secret, redirect_uri):
@@ -149,9 +149,33 @@ class Spotify():
         
         userUrl =  'https://api.spotify.com/v1/me/playlists'
         
-        res = requests.get(url=userUrl, headers=headers)
-        return res.json()
+        res = requests.get(url=userUrl, headers=headers, params={'limit':50}).json()
+        total = res['total']
+        print(total)
+        items = res['items']
+        offset = 50
+        while offset < total:
+            res = requests.get(url=userUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
+            offset = offset + 50
+            items.extend(res['items'])
+        for i, val in enumerate(items.copy()):
+            # print(val['name'] + ' - ' + val['id'] + val['external_urls']['spotify'] + ' - ' + val['images'][0]['url'] + ' - ' + val['tracks']['href'])
+            if len(val['images']) == 0:
+                items.remove(val)
+                print(val['name'])
+            # try: 
+            #     val['images'][0]
+            # except:
+            #     items.pop(i)
+        for item in items:
+            try:
+                print(item['images'][0]['url'])
+            except:
+                print(item['name'])
+        return items
     
+
+
     # CODE FOR QUERIES
     
     def get_playlist(self, playlist_id, token=None):

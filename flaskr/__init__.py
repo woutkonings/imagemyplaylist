@@ -62,7 +62,7 @@ def create_app(test_config=None):
         if session.get('user_token') is None: #check if authentication already done
             return redirect('/spotify/auth')
         else: 
-            playlists = sp.getUserPlaylists(session['user_token'])['items']
+            playlists = sp.getUserPlaylists(session['user_token'])
         
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
@@ -92,7 +92,7 @@ def create_app(test_config=None):
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
         return redirect('/playlists')
-    
+
     app.register_blueprint(spotify.bp)
-    
+
     return app
