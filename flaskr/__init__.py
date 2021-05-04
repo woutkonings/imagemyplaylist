@@ -91,15 +91,8 @@ def create_app(test_config=None):
         
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
-        return res + playlistID + imageUrl
+        return redirect('/playlists')
     
-    
-    
-    
-        
     app.register_blueprint(spotify.bp)
     
-    
-
-
     return app

@@ -11,5 +11,4 @@ RUN apt-get update -yqq \
         gcc\
         curl
 RUN pip install --no-cache-dir -r requirements.txt
-RUN ls
 RUN export FLASK_APP=flaskr
