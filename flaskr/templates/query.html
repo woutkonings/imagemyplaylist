@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block header_content %}
+<div class="container h-100">
+            <div class="row h-100">
+                <div class="col-12">
+                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center text-light">
+                        <h1 class="display-4">Image My Playlist</h1>
+                        <p class="lead">Add fitting, custom playlist images for your own spotify playlists</p>
+                        <div class="container text-center hi">
+                            <p style="font-size: 40px;">
+                                Hi {{ user_display_name }}!
+                            </p>
+                            <p>
+                                Here are some images for your chosen spotify playlist.
+                            </p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+    
+        
+{% endblock %}
+{% block main_content %}
+<section class="container">
+                
+            <div class="container h-100">
+                <p>
+                    {% for pic in query.values() %}
+                        <p>
+                        {{ pic }}
+                        </p>
+                        <a href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+                            <img src={{ pic|safe }} />
+                        </a>
+                    {% endfor %}
+                </p>
+            </div>
+        </section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block header_content %}
+<div class="container h-100">
+            <div class="row h-100">
+                <div class="col-12">
+                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center text-light">
+                        <h1 class="display-4">Image My Playlist</h1>
+                        <p class="lead">Add fitting, custom playlist images for your own spotify playlists</p>
+                        <div class="container text-center hi">
+                            <p style="font-size: 40px;">
+                                Hi {{ user_display_name }}!
+                            </p>
+                            <p>
+                                Here is a list of your playlists on Spotify.
+                            </p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+    
+        
+{% endblock %}
+{% block main_content %}
+<section class="container">
+                
+            <div class="container h-100">
+                <ul class="list-group">
+                    {% for playlist in playlists_data %}
+                        {% set playlist_id = playlist['id'] %}
+                        {% set playlist_name = playlist['name'] %}
+                        {% set playlist_url = playlist['external_urls']['spotify'] %}
+                        {% set playlist_img_url = playlist['images'][0]['url'] %}
+                        {% set tracks = playlist['tracks']['href'] %}
+                        <div class="list-group-item list-group-item d-flex justify-content-between align-items-center playlists">
+                            <span>{{ playlist_name }}</span>
+                            <div class="modal-footer">
+                                <a href="query/{{ playlist_id }}" class="btn btn-primary mt-auto" type="button">
+                                    Alter image
+                                </a>
+                            </div>
+                            <div>
+                                <img src="{{ playlist_img_url }}" style="max-width: 47px;" alt="">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+{% endblock %}

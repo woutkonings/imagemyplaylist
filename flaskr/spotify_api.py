@@ -432,11 +432,12 @@ if __name__ == "__main__":
     token = sp.get_token(spotify_client_id, spotify_client_secret)
     
     #playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs
-    playlistId = "55oXRfL4wQCPxFMHY3ReFo" # Electro playlist with 31 songs
+    playlistId = "6h9XZyUNJzguM32QVmRf4B" # Electro playlist with 31 songs
     
     playlists = sp.getUserPlaylists(Config.USER_TOKEN)
     
     df = sp.get_song_df(playlistId)
     
+    query = sp.genre_query(df)
 
     
