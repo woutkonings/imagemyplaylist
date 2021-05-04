@@ -109,12 +109,17 @@ class Spotify():
         
         return self.handleToken(p_back)
     
+    def construct_callback_url(self):
+        if Config.USE_PORT:
+            return "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH)
+        else:
+            return "{}/{}".format(Config.CALLBACK_URL, Config.PATH)
     
-    def getUser(self):
-        return self.getAuth(self.client_id, "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH), Config.SCOPE)
+    def getUser(self, callback_url):
+        return self.getAuth(self.client_id, "{}/{}".format(callback_url, Config.PATH), Config.SCOPE)
     
-    def getUserToken(self, code):
-        self.token_data = self.getToken(code, self.client_id, self.client_secret, "{}:{}/{}".format(Config.CALLBACK_URL, Config.PORT, Config.PATH))
+    def getUserToken(self, code, callback_url):
+        self.token_data = self.getToken(code, self.client_id, self.client_secret, "{}/{}".format(callback_url, Config.PATH))
      
     def refreshToken(self, time):
         time.sleep(time)

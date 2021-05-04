@@ -5,6 +5,7 @@ from .spotify_api import Spotify
 from .unsplash import Unsplash
 from . import spotify
 from datetime import datetime
+from flaskr.config import Config
 
 
 def create_app(test_config=None):
@@ -17,7 +18,6 @@ def create_app(test_config=None):
     
     sp = Spotify()
     us = Unsplash()
-    
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -38,6 +38,9 @@ def create_app(test_config=None):
         # now = datetime.now()
         # t = now.strftime("%H:%M:%S")
         # session['visit_time'] =  str(t)
+        dict_headers = dict(request.headers)
+        for key in dict_headers:
+            print(key + ': ' + dict_headers[key])
         return render_template('home.html')
 
     @app.route('/about')
