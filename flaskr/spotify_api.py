@@ -143,13 +143,20 @@ class Spotify():
         
         
         
+        
+        
         headers = {
                         "Authorization": "Bearer " + userToken
                         }
         
-        userUrl =  'https://api.spotify.com/v1/me/playlists'
         
-        res = requests.get(url=userUrl, headers=headers, params={'limit':50}).json()
+        userUrl = 'https://api.spotify.com/v1/me'
+        user_id = requests.get(url=userUrl, headers=headers).json()['id']
+        
+        
+        userPlaylistUrl =  'https://api.spotify.com/v1/me/playlists'
+        
+        res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50}).json()
         total = res['total']
         print(total)
         items = res['items']
@@ -157,7 +164,7 @@ class Spotify():
         for val in enumerate(items):
             print(val)
         while offset < total:
-            res = requests.get(url=userUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
+            res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
             offset = offset + 50
             items.extend(res['items'])
         for i, val in enumerate(items.copy()):
@@ -165,6 +172,8 @@ class Spotify():
             if len(val['images']) == 0:
                 items[i]['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
                 print(val['name'])
+            if val['owner']['id'] != user_id:
+                items.remove(val)
             # try: 
             #     val['images'][0]
             # except:
