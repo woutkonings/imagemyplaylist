@@ -158,11 +158,8 @@ class Spotify():
         
         res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50}).json()
         total = res['total']
-        print(total)
         items = res['items']
         offset = 50
-        for val in enumerate(items):
-            print(val)
         while offset < total:
             res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
             offset = offset + 50
@@ -171,18 +168,17 @@ class Spotify():
             # print(val['name'] + ' - ' + val['id'] + val['external_urls']['spotify'] + ' - ' + val['images'][0]['url'] + ' - ' + val['tracks']['href'])
             if len(val['images']) == 0:
                 items[i]['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
-                print(val['name'])
             if val['owner']['id'] != user_id:
                 items.remove(val)
             # try: 
             #     val['images'][0]
             # except:
             #     items.pop(i)
-        for item in items:
-            try:
-                print(item['images'][0]['url'])
-            except:
-                print(item['name'])
+        # for item in items:
+        #     try:
+        #         print(item['images'][0]['url'])
+        #     except:
+        #         print(item['name'])
         return items
     
     # CODE FOR QUERIES

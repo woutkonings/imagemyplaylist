@@ -63,23 +63,38 @@ def create_app(test_config=None):
             return redirect('/spotify/auth')
         else: 
             playlists = sp.getUserPlaylists(session['user_token'])
+            
+        request_dict = request.args.copy()
         
+        try:
+            searchterm = request_dict.pop('searchterm', None)
+            playlists = [x for x in playlists if searchterm in x['name']]
+        except:
+            searchterm = 'none'
+            
+        try:
+            showall = request_dict.pop('showall', None)
+            if not showall == 'true':
+                playlists = [x for x in playlists if len(x['images']) > 1]
+        except:
+            showall=True
+            
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
                                    playlists_data=playlists,
-                                   allplaylists=True)
+                                   showall=showall)
     
-    @app.route('/searchplaylists')
-    def searchplaylists():
-        try:
-            searchterm = request.args.get('searchterm', 0, type=str)
-            playlists = sp.getUserPlaylists(session['user_token'])
-            playlists_data = [x for x in playlists if searchterm in x['name']]
-            playlists_data_return = jsonify(updated=True,
-                                            playlists_data=playlists_data)
-            return playlists_data_return
-        except Exception as e:
-            return str(e)
+    # @app.route('/searchplaylists')
+    # def searchplaylists():
+    #     try:
+    #         searchterm = request.args.get('searchterm', 0, type=str)
+    #         playlists = sp.getUserPlaylists(session['user_token'])
+    #         playlists_data = [x for x in playlists if searchterm in x['name']]
+    #         playlists_data_return = jsonify(updated=True,
+    #                                         playlists_data=playlists_data)
+    #         return playlists_data_return
+    #     except Exception as e:
+    #         return str(e)
     
     
 

@@ -44,37 +44,35 @@
         
 {% endblock %}
 {% block main_content %}
-<section class="container">
-
+<section class="container" id="searchresults">
+            <br><br>
             <div class="row">
             
-                <div class="container">
-                    <form>
-                        <div class="col-lg-4">
-                            <input class="form-control" type="text" text="Playlist name" name="searchterm">
-                            <a href="#" id="process_input"><button class='btn btn-default'>Submit</button></a>
-                        </div>
-                    </form>
-                    
-                </div>
-
-                <span id="playlists_data_return"> </span>
+                    <div class="col-lg-4">
+                        <form >
+                            <input class="form-control" type="text" id="srchTerm" value="{{searchterm}}" placeholder="Playlist name" name="searchterm">
+                            <a href = "javascript:;" onclick = "this.href='/playlists?searchterm=' + document.getElementById('srchTerm').value + '&{{showall}}'#searchresults"> <button class="btn btn-outline-secondary">Search</button> </a>
+                            <a href="/playlists?searchterm=&showall=true#searchresults"><button class="btn btn-outline-secondary">Clear</button></a>
+                        </form>
+                        
+                    </div>
                 
-                {% if allplaylist%}
+                
+                {% if showall == "true" %}
                 <div class="pb-2">
-                                <button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button>
-                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button></a>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button></a>
                 </div>
                 {% else %}
                 <div class="pb-2">
-                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button>
-                                <button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button></a>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button></a>
                 </div>
                 {% endif %}
             </div>
             
             
-            
+            <br><br>
             
                 
             <div class="container h-100">
