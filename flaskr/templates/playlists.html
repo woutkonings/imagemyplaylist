@@ -26,23 +26,25 @@
                 
             <div class="container h-100">
                 <div class="row">
+                    <div class="card-columns">
                     {% for playlist in playlists_data %}
                         {% set playlist_id = playlist['id'] %}
                         {% set playlist_name = playlist['name'] %}
                         {% set playlist_url = playlist['external_urls']['spotify'] %}
                         {% set playlist_img_url = playlist['images'][0]['url'] %}
                         {% set tracks = playlist['tracks']['href'] %}
-                        <div class="col-4">
-                        <div class="card" style="width: 18rem;">
-                            <img src="{{ playlist_img_url }}" class="card-img-top" alt="...">
+                        
+                        <div class="card">
+                            <img src="{{ playlist_img_url }}" class="card-img-top" style="overflow:hidden" alt="...">
                             <div class="card-body">
-                              <h5 class="card-title">{{ playlist_name }}</h5>
+                              <h6 class="card-title">{{ playlist_name }}</h6>
                               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                               <a href="query/{{ playlist_id }}" class="btn btn-primary">Change the picture</a>
                             </div>
                           </div>
-                        </div>
+                        
                     {% endfor %}
+                    </div>
                 </div>
             </div>
         </section>

@@ -185,9 +185,8 @@ class Spotify():
                 print(item['name'])
         return items
     
-
-
     # CODE FOR QUERIES
+    
     
     def get_playlist(self, playlist_id, token=None):
         """
