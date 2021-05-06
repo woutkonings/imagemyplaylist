@@ -75,7 +75,9 @@ def create_app(test_config=None):
             searchterm = request.args.get('searchterm', 0, type=str)
             playlists = sp.getUserPlaylists(session['user_token'])
             playlists_data = [x for x in playlists if searchterm in x['name']]
-            return jsonify(updated=True,playlists_data=playlists_data)
+            playlists_data_return = jsonify(updated=True,
+                                            playlists_data=playlists_data)
+            return playlists_data_return
         except Exception as e:
             return str(e)
     

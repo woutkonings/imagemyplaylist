@@ -10,7 +10,7 @@
                 $.getJSON('/searchplaylists', {
                   searchterm: $('input[name="searchterm"]').val(),
                 }, function(data) {
-                  $("#playlists_data").text(data.playlists_data);
+                  $("#playlists_data_return").text(data.playlists_data);
                 });
                 return false;
               });
@@ -54,12 +54,11 @@
                             <input class="form-control" type="text" text="Playlist name" name="searchterm">
                             <a href="#" id="process_input"><button class='btn btn-default'>Submit</button></a>
                         </div>
-                        <p id=playlists_data></p>
                     </form>
                     
                 </div>
 
-                {{result}}
+                <span id="playlists_data_return"> </span>
                 
                 {% if allplaylist%}
                 <div class="pb-2">
@@ -74,12 +73,8 @@
                 {% endif %}
             </div>
             
-            <section id="playlist_data">
             
             
-            {% if updated %}
-                {{playlists_data}}
-            {% endif %}
             
                 
             <div class="container h-100">
@@ -93,7 +88,7 @@
                         {% set tracks = playlist['tracks']['href'] %}
                         
                         <div class="card">
-                            <img src="{{ playlist_img_url }}" class="card-img-top" style="overflow:hidden" alt="...">
+                                <img src="{{ playlist_img_url }}" class="card-img-top" style="overflow:hidden; object-fit:cover; width:  100%; height:  360px;" alt="...">
                             <div class="card-body">
                               <h6 class="card-title">{{ playlist_name }}</h6>
                               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
@@ -105,6 +100,5 @@
                     </div>
                 </div>
             </div>
-        </section>
     </section>
 {% endblock %}
