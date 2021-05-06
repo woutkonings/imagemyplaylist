@@ -109,6 +109,16 @@ def create_app(test_config=None):
         
         return redirect('/playlists')
     
+    
+    @app.route('/privacy')
+    def privacy():
+        return render_template('privacy.html')
+    
+    #handle spotify authorisation cancel scenario
+    @app.errorhandler(400)
+    def auth_error(e):
+        return render_template('400.html', scopes=Config.SCOPE), 400
+    
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404

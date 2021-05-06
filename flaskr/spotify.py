@@ -16,6 +16,7 @@ def auth():
     response = sp.getUser(callback_url)
     return redirect(response)
 
+
 @bp.route('/callback/')
 def joejoe():
     callback_url = determine_host(request.headers)
