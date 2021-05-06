@@ -23,6 +23,27 @@
 {% endblock %}
 {% block main_content %}
 <section class="container">
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <input class="form-control" type="text" placeholder="Playlist name">
+                </div>
+                
+                
+                {% if allplaylist%}
+                <div class="pb-3">
+                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button>
+                                <button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button>
+                </div>
+                {% else %}
+                <div class="pb-3">
+                                <button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button>
+                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button>
+                </div>
+                {% endif %}
+            </div>
+            
+            
                 
             <div class="container h-100">
                 <div class="row">
