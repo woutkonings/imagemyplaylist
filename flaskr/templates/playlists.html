@@ -1,4 +1,26 @@
 {% extends "base.html" %}
+
+
+{% block scripts_content %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+            $(function() {
+              $('a#process_input').bind('click', function() {
+                $.getJSON('/searchplaylists', {
+                  searchterm: $('input[name="searchterm"]').val(),
+                }, function(data) {
+                  $("#playlists_data").text(data.playlists_data);
+                });
+                return false;
+              });
+            });
+        </script>
+
+{% endblock %}
+
+
+
 {% block header_content %}
 <div class="container h-100">
             <div class="row h-100">
@@ -25,24 +47,39 @@
 <section class="container">
 
             <div class="row">
-                <div class="col-lg-6">
-                    <input class="form-control" type="text" placeholder="Playlist name">
+            
+                <div class="container">
+                    <form>
+                        <div class="col-lg-4">
+                            <input class="form-control" type="text" text="Playlist name" name="searchterm">
+                            <a href="#" id="process_input"><button class='btn btn-default'>Submit</button></a>
+                        </div>
+                        <p id=playlists_data></p>
+                    </form>
+                    
                 </div>
-                
+
+                {{result}}
                 
                 {% if allplaylist%}
-                <div class="pb-3">
-                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button>
-                                <button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button>
-                </div>
-                {% else %}
-                <div class="pb-3">
+                <div class="pb-2">
                                 <button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button>
                                 <button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button>
+                </div>
+                {% else %}
+                <div class="pb-2">
+                                <button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button>
+                                <button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button>
                 </div>
                 {% endif %}
             </div>
             
+            <section id="playlist_data">
+            
+            
+            {% if updated %}
+                {{playlists_data}}
+            {% endif %}
             
                 
             <div class="container h-100">
@@ -69,4 +106,5 @@
                 </div>
             </div>
         </section>
+    </section>
 {% endblock %}

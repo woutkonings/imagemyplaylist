@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, jsonify
 from .spotify_api import Spotify
 from .unsplash import Unsplash
 from . import spotify
@@ -66,7 +66,19 @@ def create_app(test_config=None):
         
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
-                                   playlists_data=playlists)
+                                   playlists_data=playlists,
+                                   allplaylists=True)
+    
+    @app.route('/searchplaylists')
+    def searchplaylists():
+        try:
+            searchterm = request.args.get('searchterm', 0, type=str)
+            playlists = sp.getUserPlaylists(session['user_token'])
+            playlists_data = [x for x in playlists if searchterm in x['name']]
+            return jsonify(updated=True,playlists_data=playlists_data)
+        except Exception as e:
+            return str(e)
+    
     
 
     @app.route('/query/<playlistID>')
