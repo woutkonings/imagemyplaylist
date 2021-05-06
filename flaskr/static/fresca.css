@@ -1,5 +1,6 @@
 /*! Themestr.app `Fresca` Bootstrap 4.3.1 theme */
 @import url(https://fonts.googleapis.com/css?family=Muli:200,300,400,700);
+@import 'https://fonts.googleapis.com/css?family=Salsa|Pacifico';
 /*!
  * Bootstrap v4.1.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
@@ -35,6 +36,11 @@
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  --spread: .5em;
+  --shift: .01em;
+  --base: #4d70c7;
+  --c1: #21c2f5; 
+  --c2: #9c63c7;
 
 *,
 *::before,
@@ -54,6 +60,117 @@ html {
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
+
+
+
+
+
+@keyframes flicker1 {
+  95% {
+    text-shadow: 
+      0 0 .05em var(--c1), 
+      0 0 .1em var(--base), 
+
+      calc(var(--shift) * 1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * 1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1),
+
+      0 0 var(--spread) var(--base),
+      0 0 calc(var(--spread) / 1.5) var(--base);
+  }
+  98% {
+    text-shadow: 
+      0 0 .05em var(--c1), 
+      0 0 .1em var(--c2), 
+
+      calc(var(--shift) * 1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * 1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1),
+
+      0 0 0 var(--base),
+      0 0 0 var(--base);
+  }
+}
+    
+@keyframes flicker2 {
+  90% {
+    opacity: .1;
+    text-shadow: 
+      0 0 .05em var(--c1), 
+      0 0 .1em var(--c2), 
+
+      calc(var(--shift) * 1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * 1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+      calc(var(--shift) * -1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1),
+
+      0 0 0 var(--base),
+      0 0 0 var(--base);
+  }
+}
+
+body {
+    font-family: 'Salsa', sans-serif;
+}
+h9 {
+  font-family: 'Pacifico', cursive;
+  font-weight: 100;
+  margin: 0 0 .2em 0;
+  font-size: 5em;
+  letter-spacing: -.01em;
+  transform: rotate(-12deg);
+  color: transparent;
+  text-shadow: 
+    0 0 .05em var(--c1), 
+    0 0 .1em var(--base), 
+
+    calc(var(--shift) * 1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1), 
+    calc(var(--shift) * -1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+    calc(var(--shift) * 1) calc(var(--shift) * -1) calc(var(--spread) / 50) var(--c1), 
+    calc(var(--shift) * -1) calc(var(--shift) * 1) calc(var(--spread) / 50) var(--c1),
+    
+    0 0 var(--spread) var(--base),
+    0 0 calc(var(--spread) / 1.5) var(--base);
+  span {
+    &:nth-child(1) {
+      animation: flicker1 1s infinite alternate ease-in-out;
+    }
+    &:nth-child(2) {
+      animation: flicker1 1.5s infinite alternate ease-in-out;
+    }
+    &:nth-child(3) {
+      animation: flicker1 .47s infinite alternate ease-in-out;
+    }
+    &:nth-child(4) {
+      animation: flicker2 .1s infinite alternate ease-in-out;
+    }
+  }
+}
+
+
+p {
+  margin: 0;
+  transform: translateX(10%);
+}
+main {
+  text-align: center;
+  font-size: 4vmin;
+  color: #fff;
+}
+html, body {
+  height: 100%
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #232325;
+  background-image: linear-gradient(-20deg, #000 30%, #9c63c7);
+  background-size: 200%;
+  background-position: center center;
+}
 
 body {
   margin: 0;
@@ -3664,7 +3781,10 @@ button.close {
 
 .bg-primary {
   background-color: #07689F !important; }
-
+/*!
+ * background-color: #07689F !important; }
+ */
+ 
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
