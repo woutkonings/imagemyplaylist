@@ -32,7 +32,9 @@ class Config():
     UNSPLASH_CLIENT_SECRET = '0avVm46iEXEzUG5p1UMprygoJJIUSYgAGqScwu2Lnqs'
     
     
-    USER_TOKEN = 'BQB1bQnGv3zWQFIBbXfqBOiILqwPfc0yc_zGSx4hMsFo7wdBmFDH4zLW8Pjb6S5JhVHgnnglBbuqM9M8eC_CerEW78udALBKFZycsxeuLnjGdtcSgAuOtr0z7fBTg76jacN-AQCUNWmLZrx39E9QhJhFuuUX5VziPVBFQNf_7qaHbpy8_MTZ2CgqhLdNiarRoTwRI1nzcGsByh2VfK8DOP-_e6FqFO--nt-LjUMhS0GTJw'
+    USER_TOKEN = 'BQCX49B8GjXQ_LJs-AHjB3ulA7SewuPZ39c0lJP5GAwa26GrEY9QP8UhYqCR2HNOMbXYMIoA8IBMLgQL_ypvPJIVvHEpv5qObR8SIYsMy50ZZxEjG43mLanJ0kY5Wwuka_F-gMqIs1YoHoNNOmD_LGHzFyOt9qCoAmlx6cYjzPAChEx6g9gq9xbUOAN-PPOIbTMp1vmvvKwKDD407XKaWPSfO2-6eeKv_1msfVsa-9RWAAri8lK6WD-NESI'
+    
+    QUESTION_SQUARE_URL = 'https://www.iconsdb.com/icons/preview/gray/question-mark-xxl.png'
     
     def set_global(name, x):
         globals()[name] = x
