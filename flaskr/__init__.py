@@ -83,20 +83,6 @@ def create_app(test_config=None):
                                    user_display_name=session['user_info']['display_name'],
                                    playlists_data=playlists,
                                    showall=showall)
-    
-    # @app.route('/searchplaylists')
-    # def searchplaylists():
-    #     try:
-    #         searchterm = request.args.get('searchterm', 0, type=str)
-    #         playlists = sp.getUserPlaylists(session['user_token'])
-    #         playlists_data = [x for x in playlists if searchterm in x['name']]
-    #         playlists_data_return = jsonify(updated=True,
-    #                                         playlists_data=playlists_data)
-    #         return playlists_data_return
-    #     except Exception as e:
-    #         return str(e)
-    
-    
 
     @app.route('/query/<playlistID>')
     def searchImage(playlistID=None):
@@ -122,6 +108,17 @@ def create_app(test_config=None):
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
         return redirect('/playlists')
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+    
+    @app.errorhandler(500)
+    def server_error(e):
+        return render_template('500.html'), 500
+    @app.route('/test500')
+    def test_500():
+        return render_template('500.html')
 
     app.register_blueprint(spotify.bp)
 
