@@ -55,7 +55,7 @@ def create_app(test_config=None):
     def show_session():
         res = str(session.items())
         return res
-    
+
     @app.route('/playlists')
     def playlists():
         
@@ -68,6 +68,7 @@ def create_app(test_config=None):
                                    user_display_name=session['user_info']['display_name'],
                                    playlists_data=playlists)
     
+
     @app.route('/query/<playlistID>')
     def searchImage(playlistID=None):
         
