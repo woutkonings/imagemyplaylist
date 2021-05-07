@@ -71,7 +71,7 @@ def create_app(test_config=None):
         
         try:
             searchterm = request_dict.pop('searchterm', None)
-            if searchterm is not 'none':
+            if searchterm != 'none':
                 playlists = [x for x in playlists if searchterm in x['name']]
         except:
             'donothing'
@@ -105,9 +105,6 @@ def create_app(test_config=None):
     @app.route('/setimage')
     def setImage(playlistID=None):
         
-        
-        #TODO: write a while loop that shrinks the chosen image size until spotify api request is accepted
-        
         request_dict = request.args.copy()
         
         playlistID  = request_dict.pop('playlistID', None)
@@ -121,8 +118,10 @@ def create_app(test_config=None):
         print(res.reason, flush=True)
         
         if res.status_code == 202:
+            #if accepted return to playlists
             return redirect('/playlists')
         elif res.status_code == 413 and res.reason == 'Request Entity Too Large':
+            #decrease the square with 50 pixels until request is accepted
             prevDimension = imageUrl.split('w=')[-1]
             print('prev = ' + prevDimension, flush=True)
             newDimension = str(int(prevDimension) - 50)
