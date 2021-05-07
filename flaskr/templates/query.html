@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
 
+{% block scripts_content %}
+<link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+
+{% endblock %}
+
+
 {% block header_content %}
 <div class="container h-100">
             <div class="row h-100">
@@ -20,23 +28,41 @@
             </div>
         </div>
         
-    
-        
 {% endblock %}
+
+
 {% block main_content %}
 <section class="container">
-                
-            <div class="container h-100">
-                <p>
+                    
+                    
+                    <br> <br>
+                    
+                    <div class="square-gallery">
                     {% for pic in query.values() %}
-                        <p>
-                        {{ pic }}
-                        </p>
-                        <a href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
-                            <img src={{ pic|safe }} />
-                        </a>
+                        
+                                <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
+                                    <a  href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+                                    <img class="gallery-item" src={{ pic|safe }} />
+                                    </a>
+                                <!--</a>-->
+                          
                     {% endfor %}
-                </p>
-            </div>
+                    </div>
+                    
+                    
+                    <br> <br><br> <br><br> <br><br> <br>
+                    
+                    {% for pic in query.values() %}
+                        {{ pic|safe }}
+                    {% endfor %}
+                    {% for pic in query.values() %}
+                        
+                                <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
+                                    <a  href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+                                    <img  src={{ pic|safe }} />
+                                    </a>
+                                <!--</a>-->
+                          
+                    {% endfor %}
         </section>
 {% endblock %}

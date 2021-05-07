@@ -51,7 +51,7 @@ class Unsplash():
         
         return r
     
-    def query_to_display_urls(self, query_result, size = 'small'):
+    def query_to_display_urls(self, query_result, dimension = 400):
         """
         
 
@@ -68,8 +68,11 @@ class Unsplash():
         dict
             dictionary with the key the picture title and the values the urls
         """
-            
-        return {x['alt_description'] : x['urls'][size] for x in query_result['results']}
+        
+        first = {x['alt_description'] : x['urls']['full'] for x in query_result['results']}
+        second = {key : value + f'&ar=1:1&fit=crop&w={dimension}' for key, value in first.items()}
+        
+        return second
     
     def save_pictures(self, url_dict, location):
         """

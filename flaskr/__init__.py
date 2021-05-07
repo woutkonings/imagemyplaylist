@@ -16,6 +16,7 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
     
+    
     sp = Spotify()
     us = Unsplash()
 
@@ -66,15 +67,19 @@ def create_app(test_config=None):
             
         request_dict = request.args.copy()
         
+        #TODO: fix the problem that showall value is not passed in javascript when query is performed.
+        
         try:
             searchterm = request_dict.pop('searchterm', None)
-            playlists = [x for x in playlists if searchterm in x['name']]
+            if searchterm is not 'none':
+                playlists = [x for x in playlists if searchterm in x['name']]
         except:
-            searchterm = 'none'
+            'donothing'
+            # searchterm = 'none'
             
         try:
             showall = request_dict.pop('showall', None)
-            if not showall == 'true':
+            if showall == 'false':
                 playlists = [x for x in playlists if len(x['images']) > 1]
         except:
             showall=True
@@ -82,6 +87,7 @@ def create_app(test_config=None):
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
                                    playlists_data=playlists,
+                                   searchterm=searchterm,
                                    showall=showall)
 
     @app.route('/query/<playlistID>')
@@ -91,12 +97,16 @@ def create_app(test_config=None):
         query = sp.genre_query(df)
         
         result = us.query(query)
-        images = us.query_to_display_urls(result, size = 'thumb')
+        images = us.query_to_display_urls(result, dimension=400)
+        
         
         return render_template('query.html', query=images, playlistID=playlistID)
     
     @app.route('/setimage')
     def setImage(playlistID=None):
+        
+        
+        #TODO: write a while loop that shrinks the chosen image size until spotify api request is accepted
         
         request_dict = request.args.copy()
         
@@ -107,6 +117,7 @@ def create_app(test_config=None):
         
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
+        # return imageUrl
         return redirect('/playlists')
     
     

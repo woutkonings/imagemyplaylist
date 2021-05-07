@@ -51,23 +51,24 @@
                     <div class="col-lg-4">
                         <form >
                             <input class="form-control" type="text" id="srchTerm" value="{{searchterm}}" placeholder="Playlist name" name="searchterm">
-                            <a href = "javascript:;" onclick = "this.href='/playlists?searchterm=' + document.getElementById('srchTerm').value + '&{{showall}}'#searchresults"> <button class="btn btn-outline-secondary">Search</button> </a>
-                            <a href="/playlists?searchterm=&showall=true#searchresults"><button class="btn btn-outline-secondary">Clear</button></a>
+                            <a href = "javascript:;" onclick = "this.href='/playlists?searchterm=' + document.getElementById('srchTerm').value + '&"{{showall}}"#searchresults'"> <button class="btn btn-outline-secondary">Search</button> </a>
                         </form>
+                            <a href="/playlists?searchterm=&showall={{showall}}#searchresults"><button class="btn btn-outline-secondary">Clear</button></a>
                         
                     </div>
                 
                 
-                {% if showall == "true" %}
-                <div class="pb-2">
-                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button></a>
-                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button></a>
-                </div>
-                {% else %}
+                {% if showall == "false" %}
                 <div class="pb-2">
                                 <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button></a>
                                 <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button></a>
                 </div>
+                {% else %}
+                <div class="pb-2">
+                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button></a>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button></a>
+                </div>
+                
                 {% endif %}
             </div>
             
@@ -77,6 +78,12 @@
                 
             <div class="container h-100">
                 <div class="row">
+                    
+                    
+                    {% if playlists_data|length == 0 %}
+                        <p> There are no playlists matching your search term. </p>
+                    {% endif %}
+                    
                     <div class="card-columns">
                     {% for playlist in playlists_data %}
                         {% set playlist_id = playlist['id'] %}
