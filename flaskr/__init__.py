@@ -90,17 +90,31 @@ def create_app(test_config=None):
                                    searchterm=searchterm,
                                    showall=showall)
 
-    @app.route('/query/<playlistID>')
+    @app.route('/query/<playlistID>', methods = ['POST', 'GET'])
     def searchImage(playlistID=None):
         
-        df = sp.get_song_df(playlistID)
-        query = sp.genre_query(df)
+        if request.method == 'POST':
+            searchMethod = request.form['searchMethod']
+            searchTerm = request.form['searchTerm']
+        else:
+            searchMethod = 'genre'
+            searchTerm = 'none'
         
-        result = us.query(query)
-        images = us.query_to_display_urls(result, dimension=750)
+        if searchTerm != 'none':
+            images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
+        elif searchMethod == 'random':
+            #TODO: make reandom unsplash search
+            x=1
+        elif searchMethod in Config.SEARCH_OPTIONS: #make sure to add new 
+        #search options to config and to the form option list
+            df = sp.get_song_df(playlistID)
+            searchTerm = eval('sp.' + searchMethod +'_query(df)')
+            images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
         
-        
-        return render_template('query.html', query=images, playlistID=playlistID)
+        return render_template('query.html', 
+                               user_display_name=session['user_info']['display_name'],
+                               query=images, 
+                               playlistID=playlistID)
     
     @app.route('/setimage')
     def setImage(playlistID=None):
