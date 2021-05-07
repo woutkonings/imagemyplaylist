@@ -70,7 +70,7 @@ class Unsplash():
         """
         
         first = {x['alt_description'] : x['urls']['full'] for x in query_result['results']}
-        second = {key : value + f'&ar=1:1&fit=crop&w={dimension}' for key, value in first.items()}
+        second = {key : value.replace('entropy','edges') + f'&ar=1:1&fit=crop&w={dimension}' for key, value in first.items()}
         
         return second
     

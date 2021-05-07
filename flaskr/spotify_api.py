@@ -456,7 +456,7 @@ class Spotify():
         
         res = requests.put(url=url, headers=headers, data=encodedimg)
         
-        return str(res.status_code) + str(res.reason)
+        return res
 
 if __name__ == "__main__":
     

@@ -97,7 +97,7 @@ def create_app(test_config=None):
         query = sp.genre_query(df)
         
         result = us.query(query)
-        images = us.query_to_display_urls(result, dimension=400)
+        images = us.query_to_display_urls(result, dimension=750)
         
         
         return render_template('query.html', query=images, playlistID=playlistID)
@@ -117,8 +117,20 @@ def create_app(test_config=None):
         
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
-        # return imageUrl
-        return redirect('/playlists')
+        print(res.status_code, flush=True)
+        print(res.reason, flush=True)
+        
+        if res.status_code == 202:
+            return redirect('/playlists')
+        elif res.status_code == 413 and res.reason == 'Request Entity Too Large':
+            prevDimension = imageUrl.split('w=')[-1]
+            print('prev = ' + prevDimension, flush=True)
+            newDimension = str(int(prevDimension) - 50)
+            print('dim = ' + newDimension, flush=True)
+            newImageUrl = imageUrl.replace('w=' + prevDimension, 'w=' + newDimension)
+            return redirect(f"/setimage?playlistID={playlistID}&imageUrl={newImageUrl}")
+        else:
+            return redirect('/playlists')
     
     
     @app.route('/privacy')
