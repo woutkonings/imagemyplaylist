@@ -6,6 +6,7 @@ from .unsplash import Unsplash
 from . import spotify
 from datetime import datetime
 from flaskr.config import Config
+import random
 
 
 def create_app(test_config=None):
@@ -94,8 +95,14 @@ def create_app(test_config=None):
     def searchImage(playlistID=None):
         
         if request.method == 'POST':
-            searchMethod = request.form['searchMethod']
-            searchTerm = request.form['searchTerm']
+            try:
+                searchMethod = request.form['searchMethod']
+            except:
+                searchMethod = 'genre'
+            try:
+                searchTerm = request.form['searchTerm']
+            except:
+                searchTerm = 'none'
         else:
             searchMethod = 'genre'
             searchTerm = 'none'
@@ -103,8 +110,12 @@ def create_app(test_config=None):
         if searchTerm != 'none':
             images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
         elif searchMethod == 'random':
-            #TODO: make reandom unsplash search
-            x=1
+            num = random.randint(1, 4)
+            query = []
+            for i in range(num):
+                query.append('{KEYWORD}')
+            searchTerm = ','.join(query)
+            images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
         elif searchMethod in Config.SEARCH_OPTIONS: #make sure to add new 
         #search options to config and to the form option list
             df = sp.get_song_df(playlistID)
@@ -113,7 +124,7 @@ def create_app(test_config=None):
         
         return render_template('query.html', 
                                user_display_name=session['user_info']['display_name'],
-                               query=images, 
+                               images=images, 
                                playlistID=playlistID)
     
     @app.route('/setimage')

@@ -2,6 +2,7 @@
 
 
 {% block scripts_content %}
+
 <link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
@@ -32,17 +33,18 @@
 
 
 {% block main_content %}
-<section class="container">
+
+<section class="container" id="r">
+
+                    <br><br>
                     
-                    
-                    <form action="/query/{{plaulistID}}" method="post">
-                        
+                    <form action="/query/{{playlistID}}#r" method="post">
                             <div class="form-group row">
                                 <div class="col-lg-1">
                                 </div>
                                 <div class="col-lg-4">
                                     <select class="form-control" name="searchMethod" type="text">
-                                        <option value="none" disabled selected>Select a different search method</option>
+                                        <option value="none" selected disabled hidden>Select a different smart paylist search method</option>
                                         <option value="genre">Genre</option>
                                         <option value="titles">Song titles</option>
                                         <option value="artists">Artists</option>
@@ -53,17 +55,16 @@
                                     <input class="form-control" name="searchTerm" type="text"  placeholder="or enter your own search term">
                                 </div>
                                 <div class="col-lg-2">
-                                    <input type="button" class="btn btn-primary mr-2" value="Search">
+                                    <input type="submit" class="btn btn-primary mr-2" value="Search">
                                 </div>
                             </div>
                     </form>
                     
                     
-                    <br> <br>
                     
                     <div class="square-gallery">
-                    {% for pic in query.values() %}
-                        
+                    
+                    {% for pic in images.values() %}
                                 <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
                                     <a  href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
                                     <img class="gallery-item" src={{ pic|safe }} />
