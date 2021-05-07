@@ -438,6 +438,57 @@ class Spotify():
         
         return query
     
+    def artists_query(self, df):
+        """
+        gets the most common artist in the dataframe
+
+        Parameters
+        ----------
+        df : Pandas Dataframe
+            Dataframe with the songs and features
+
+        Returns
+        -------
+        query : String
+            String of the artist to query on
+
+        """
+        artists = list(df['Artist'])
+        merged = list(itertools.chain(*artists))
+        query = mode(merged)
+        
+        return query
+    
+    def titles_query(self, df):
+        """
+        gets the most common word in title in the dataframe
+
+        Parameters
+        ----------
+        df : Pandas Dataframe
+            Dataframe with the songs and features
+
+        Returns
+        -------
+        query : String
+            String of the artist to query on
+
+        """
+        titles = list(df['Title'])
+        words = []
+        for title in titles:
+            words.extend(title.split())
+            
+        words = [x for x in words if x not in Config.UNITERESTING_WORDS]
+        num = int(np.floor(len(words) / 40))
+        query = ''
+        for i in range(num):
+            m = mode(words)
+            query = query + " " + m
+            words.remove(m)
+        
+        return query
+    
     def set_playlist_image(self, playlistID, imageUrl, userToken):
         
         # playlistID = '7m9C2zzjvVjdsMbmfOEpdL'
@@ -469,7 +520,6 @@ if __name__ == "__main__":
     #playlistId = "4J7qSdpBBzCWO9n3kbQIJg" #Disco playlist with 148 songs
     playlistId = "6h9XZyUNJzguM32QVmRf4B" # Electro playlist with 31 songs
     
-    playlists = sp.getUserPlaylists(Config.USER_TOKEN)
     
     df = sp.get_song_df(playlistId)
     

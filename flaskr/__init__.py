@@ -1,10 +1,9 @@
 import os
 
-from flask import Flask, request, render_template, session, redirect, jsonify
+from flask import Flask, request, render_template, session, redirect
 from .spotify_api import Spotify
 from .unsplash import Unsplash
 from . import spotify
-from datetime import datetime
 from flaskr.config import Config
 import random
 
@@ -68,7 +67,7 @@ def create_app(test_config=None):
             
         request_dict = request.args.copy()
         
-        #TODO: fix the problem that showall value is not passed in javascript when query is performed.
+        #TODO: make this workflow a post method instead of get in order to fix the problem that showall value is not passed in javascript when query is performed.
         
         try:
             searchterm = request_dict.pop('searchterm', None)
@@ -107,7 +106,7 @@ def create_app(test_config=None):
             searchMethod = 'genre'
             searchTerm = 'none'
         
-        if searchTerm != 'none':
+        if searchTerm != 'none' and searchTerm != '':
             images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
         elif searchMethod == 'random':
             num = random.randint(1, 4)
@@ -119,8 +118,14 @@ def create_app(test_config=None):
         elif searchMethod in Config.SEARCH_OPTIONS: #make sure to add new 
         #search options to config and to the form option list
             df = sp.get_song_df(playlistID)
+            df = df
             searchTerm = eval('sp.' + searchMethod +'_query(df)')
             images = us.query_to_display_urls(us.query(searchTerm), dimension=750)
+        
+        print('searchTerm ' + searchTerm, flush=True)
+        print('searchMethod ' + searchMethod, flush=True)
+        print('images ' + str(images.keys()), flush=True)
+        
         
         return render_template('query.html', 
                                user_display_name=session['user_info']['display_name'],
