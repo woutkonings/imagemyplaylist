@@ -34,7 +34,6 @@
 {% block main_content %}
 <section class="container">
                     
-                    
                     <br> <br>
                     
                     <div class="square-gallery">
@@ -49,20 +48,6 @@
                     {% endfor %}
                     </div>
                     
-                    
-                    <br> <br><br> <br><br> <br><br> <br>
-                    
-                    {% for pic in query.values() %}
-                        {{ pic|safe }}
-                    {% endfor %}
-                    {% for pic in query.values() %}
-                        
-                                <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
-                                    <a  href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
-                                    <img  src={{ pic|safe }} />
-                                    </a>
-                                <!--</a>-->
-                          
-                    {% endfor %}
+                    <br><br><br>
         </section>
 {% endblock %}
