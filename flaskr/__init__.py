@@ -93,6 +93,9 @@ def create_app(test_config=None):
     @app.route('/query/<playlistID>', methods = ['POST', 'GET'])
     def searchImage(playlistID=None):
         
+        #TODO: look into different parameters for unsplashed to put into query
+        #e.g. make pictures black and white
+        
         if request.method == 'POST':
             try:
                 searchMethod = request.form['searchMethod']
