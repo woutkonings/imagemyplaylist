@@ -1,4 +1,26 @@
 {% extends "base.html" %}
+
+
+{% block scripts_content %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type=text/javascript>
+            $(function() {
+              $('a#process_input').bind('click', function() {
+                $.getJSON('/searchplaylists', {
+                  searchterm: $('input[name="searchterm"]').val(),
+                }, function(data) {
+                  $("#playlists_data_return").text(data.playlists_data);
+                });
+                return false;
+              });
+            });
+        </script>
+
+{% endblock %}
+
+
+
 {% block header_content %}
 <div class="container h-100">
             <div class="row h-100">
@@ -22,29 +44,68 @@
         
 {% endblock %}
 {% block main_content %}
-<section class="container">
+<section class="container" id="searchresults">
+            <br><br>
+            <div class="row">
+            
+                    <div class="col-lg-4">
+                        <form >
+                            <input class="form-control" type="text" id="srchTerm" value="{{searchterm}}" placeholder="Playlist name" name="searchterm">
+                            <a href = "javascript:;" onclick = "this.href='/playlists?searchterm=' + document.getElementById('srchTerm').value + '&"{{showall}}"#searchresults'"> <button class="btn btn-outline-secondary">Search</button> </a>
+                        </form>
+                            <a href="/playlists?searchterm=&showall={{showall}}#searchresults"><button class="btn btn-outline-secondary">Clear</button></a>
+                        
+                    </div>
+                
+                
+                {% if showall == "false" %}
+                <div class="pb-2">
+                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button></a>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button></a>
+                </div>
+                {% else %}
+                <div class="pb-2">
+                                <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">All playlists</button></a>
+                                <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button></a>
+                </div>
+                
+                {% endif %}
+            </div>
+            
+            
+            <br><br>
+            
                 
             <div class="container h-100">
-                <ul class="list-group">
+                <div class="row">
+                    
+                    
+                    {% if playlists_data|length == 0 %}
+                        <p> There are no playlists matching your search term. </p>
+                    {% endif %}
+                    
+                    <div class="card-columns">
                     {% for playlist in playlists_data %}
                         {% set playlist_id = playlist['id'] %}
                         {% set playlist_name = playlist['name'] %}
                         {% set playlist_url = playlist['external_urls']['spotify'] %}
                         {% set playlist_img_url = playlist['images'][0]['url'] %}
                         {% set tracks = playlist['tracks']['href'] %}
-                        <div class="list-group-item list-group-item d-flex justify-content-between align-items-center playlists">
-                            <span>{{ playlist_name }}</span>
-                            <div class="modal-footer">
-                                <a href="query/{{ playlist_id }}" class="btn btn-primary mt-auto" type="button">
-                                    Alter image
+                        
+                        <div class="card">
+                                <a href="query/{{ playlist_id }}">
+                                    <img src="{{ playlist_img_url }}" class="card-img-top" style="overflow:hidden; object-fit:cover; width:  100%; height:  360px;" alt="...">
                                 </a>
+                            <div class="card-body">
+                              <h6 class="card-title">{{ playlist_name }}</h6>
+                              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                              <a href="query/{{ playlist_id }}" class="btn btn-primary">Change the picture</a>
                             </div>
-                            <div>
-                                <img src="{{ playlist_img_url }}" style="max-width: 47px;" alt="">
-                            </div>
-                        </div>
+                          </div>
+                        
                     {% endfor %}
-                </ul>
+                    </div>
+                </div>
             </div>
-        </section>
+    </section>
 {% endblock %}

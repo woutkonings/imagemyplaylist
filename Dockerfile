@@ -1,4 +1,4 @@
-FROM python:3.8.9
+FROM bo3s/pandas_numpy:3.8.9
 
 WORKDIR /usr/src/app
 
@@ -11,5 +11,4 @@ RUN apt-get update -yqq \
         gcc\
         curl
 RUN pip install --no-cache-dir -r requirements.txt
-RUN ls
 RUN export FLASK_APP=flaskr

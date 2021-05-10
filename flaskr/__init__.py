@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, jsonify
 from .spotify_api import Spotify
 from .unsplash import Unsplash
 from . import spotify
@@ -15,6 +15,7 @@ def create_app(test_config=None):
         SECRET_KEY='devdevdev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    
     
     sp = Spotify()
     us = Unsplash()
@@ -55,19 +56,40 @@ def create_app(test_config=None):
     def show_session():
         res = str(session.items())
         return res
-    
+
     @app.route('/playlists')
     def playlists():
         
         if session.get('user_token') is None: #check if authentication already done
             return redirect('/spotify/auth')
         else: 
-            playlists = sp.getUserPlaylists(session['user_token'])['items']
+            playlists = sp.getUserPlaylists(session['user_token'])
+            
+        request_dict = request.args.copy()
         
+        #TODO: fix the problem that showall value is not passed in javascript when query is performed.
+        
+        try:
+            searchterm = request_dict.pop('searchterm', None)
+            if searchterm != 'none':
+                playlists = [x for x in playlists if searchterm in x['name']]
+        except:
+            'donothing'
+            # searchterm = 'none'
+            
+        try:
+            showall = request_dict.pop('showall', None)
+            if showall == 'false':
+                playlists = [x for x in playlists if len(x['images']) > 1]
+        except:
+            showall=True
+            
         return render_template('playlists.html',
                                    user_display_name=session['user_info']['display_name'],
-                                   playlists_data=playlists)
-    
+                                   playlists_data=playlists,
+                                   searchterm=searchterm,
+                                   showall=showall)
+
     @app.route('/query/<playlistID>')
     def searchImage(playlistID=None):
         
@@ -75,7 +97,8 @@ def create_app(test_config=None):
         query = sp.genre_query(df)
         
         result = us.query(query)
-        images = us.query_to_display_urls(result, size = 'thumb')
+        images = us.query_to_display_urls(result, dimension=750)
+        
         
         return render_template('query.html', query=images, playlistID=playlistID)
     
@@ -91,15 +114,44 @@ def create_app(test_config=None):
         
         res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
         
-        return res + playlistID + imageUrl
-    
-    
-    
-    
+        print(res.status_code, flush=True)
+        print(res.reason, flush=True)
         
-    app.register_blueprint(spotify.bp)
+        if res.status_code == 202:
+            #if accepted return to playlists
+            return redirect('/playlists')
+        elif res.status_code == 413 and res.reason == 'Request Entity Too Large':
+            #decrease the square with 50 pixels until request is accepted
+            prevDimension = imageUrl.split('w=')[-1]
+            print('prev = ' + prevDimension, flush=True)
+            newDimension = str(int(prevDimension) - 50)
+            print('dim = ' + newDimension, flush=True)
+            newImageUrl = imageUrl.replace('w=' + prevDimension, 'w=' + newDimension)
+            return redirect(f"/setimage?playlistID={playlistID}&imageUrl={newImageUrl}")
+        else:
+            return redirect('/playlists')
     
     
+    @app.route('/privacy')
+    def privacy():
+        return render_template('privacy.html')
+    
+    #handle spotify authorisation cancel scenario
+    @app.errorhandler(400)
+    def auth_error(e):
+        return render_template('400.html', scopes=Config.SCOPE), 400
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+    
+    @app.errorhandler(500)
+    def server_error(e):
+        return render_template('500.html'), 500
+    @app.route('/test500')
+    def test_500():
+        return render_template('500.html')
 
+    app.register_blueprint(spotify.bp)
 
     return app
