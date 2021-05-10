@@ -1,1 +1,35 @@
-.square-gallery {  display: grid;  grid-template-columns: repeat(3, 1fr);  width: 150vw;  margin: 0 auto;  border-radius: 4px;  overflow: hidden;}.gallery-item {  display: flex;  justify-content: center;  width: calc(150vw / 3);  padding-bottom: calc(150vw / 3);  background-position: center center;  background-size: cover;  background-repeat: no-repeat;}.gallery-div {  display: flex;  justify-content: center;  width: calc(150vw / 3);  height: calc(150vw / 3);  padding-bottom: calc(150vw / 3);   background-color: #ffffff;  background-position: center center;  background-size: cover;  background-repeat: no-repeat;  transition: all 0.2s ease-out;}
+.square-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gallery-item {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: calc(100% / 6);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.gallery-div {
+  display: flex;
+  justify-content: center;
+  width: calc(100% / 6);
+  height: calc(100% / 6);
+  padding-bottom: calc(100% / 6); 
+  background-color: #ffffff;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: all 0.2s ease-out;
+}
+
+
+
+

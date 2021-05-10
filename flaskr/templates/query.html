@@ -22,9 +22,14 @@
                                 Hi {{ user_display_name }}!
                             </p>
                             <p>
-                                Here are some images for your chosen spotify playlist. Click on a picture to set the playlist image or try a different search method.
+                                Here are some proposed images for the playlist {{playlist_name}}. Click on a picture to set the playlist image or try a different search method.
                             </p>
+                            <div class='col-12 mt-5' style='height:400px'> 
+                                <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="80%" height="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                            </div>
                         </div>
+                        
+                       
                 </div>
             </div>
         </div>
@@ -35,10 +40,11 @@
 {% block main_content %}
 
 <section class="container" id="r">
-
-                    <br><br>
-                    
-                    <form action="/query/{{playlistID}}#r" method="post">
+                    <div class="col-12 mt-3 mb-3 text-center">
+                        <h2>Image selection</h2>
+                    </div>
+                    <div class="col-12 text-center">
+                    <form action="/playlists/query/{{playlistID}}#r" method="post">
                             <div class="form-group row">
                                 <div class="col-lg-1">
                                 </div>
@@ -59,6 +65,7 @@
                                 </div>
                             </div>
                     </form>
+                </div>
                     
 
                     <br><br>
@@ -66,7 +73,7 @@
                     
                     {% for pic in images.values() %}
                                 <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
-                                    <a  href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+                                    <a  href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
                                     <img class="gallery-item" src={{ pic|safe }} />
                                     </a>
                                 <!--</a>-->

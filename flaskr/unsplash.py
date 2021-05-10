@@ -42,19 +42,18 @@ class Unsplash():
             result of the Unsplash query request
 
         """
-        params = {'page' : page,
+        params = {'query': query,
+                  'page' : page,
                   'per_page' : per_page}
         
-        req_url = f'https://api.unsplash.com/search/photos?page=1&query={query}'
+        req_url = f'https://api.unsplash.com/search/photos'
         res = requests.get(url=req_url, headers=self.headers, params=params)
         r = res.json()
-        
+        print()
         return r
     
     def query_to_display_urls(self, query_result, dimension = 400):
         """
-        
-
         Parameters
         ----------
         query_result : Dictionary

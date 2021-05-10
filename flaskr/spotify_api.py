@@ -140,22 +140,15 @@ class Spotify():
         return res.json()
     
     def getUserPlaylists(self, userToken):
-        
-        
-        
-        
-        
         headers = {
                         "Authorization": "Bearer " + userToken
                         }
-        
-        
         userUrl = 'https://api.spotify.com/v1/me'
         user_id = requests.get(url=userUrl, headers=headers).json()['id']
         
-        
         userPlaylistUrl =  'https://api.spotify.com/v1/me/playlists'
         
+        # Retrieving all playlists data from spotify API
         res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50}).json()
         total = res['total']
         items = res['items']
@@ -164,22 +157,20 @@ class Spotify():
             res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
             offset = offset + 50
             items.extend(res['items'])
-        for i, val in enumerate(items.copy()):
-            # print(val['name'] + ' - ' + val['id'] + val['external_urls']['spotify'] + ' - ' + val['images'][0]['url'] + ' - ' + val['tracks']['href'])
+        
+        # Filtering the retrieved data on 1) having an image 2) owned by the user
+        list_to_return = list()
+        for i, val in enumerate(items):
             if len(val['images']) == 0:
-                items[i]['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
-            if val['owner']['id'] != user_id:
-                items.remove(val)
-            # try: 
-            #     val['images'][0]
-            # except:
-            #     items.pop(i)
-        # for item in items:
+                val['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
+            if val['owner']['id'] == user_id:
+                list_to_return.append(val)
+        # for item in list_to_return:
         #     try:
         #         print(item['images'][0]['url'])
         #     except:
         #         print(item['name'])
-        return items
+        return list_to_return
     
     # CODE FOR QUERIES
     
