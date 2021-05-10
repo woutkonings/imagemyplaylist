@@ -43,6 +43,7 @@ def display_playlists():
                             no_of_playlists=no_of_playlists)
 
 
+
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])
 def searchImages(playlistID=None):
     
@@ -61,7 +62,6 @@ def searchImages(playlistID=None):
     else:
         searchMethod = 'genre'
         searchTerm = 'none'
-    
     if searchTerm != 'none' and searchTerm != '':
         query_results = us.query(query=searchTerm, per_page=30)
         images = us.query_to_display_urls(query_results, dimension=750)
@@ -72,13 +72,8 @@ def searchImages(playlistID=None):
             query = []
             for i in range(no_of_words):
                 random_num = random.randint(0, len(lines))
-                query.append(lines[random_num])
-            # num = random.randint(1, 4)
-            # query = []
-            # for i in range(num):
-            #     query.append('{KEYWORD}')
-            searchTerm = ','.join(query)
-            print(query)
+                query.append(lines[random_num].replace(' ','').strip())
+            searchTerm = ', '.join(query)
             query_results = us.query(query=searchTerm, per_page=30)
             images = us.query_to_display_urls(query_results, dimension=750)
     elif searchMethod in Config.SEARCH_OPTIONS: #make sure to add new 
@@ -90,7 +85,6 @@ def searchImages(playlistID=None):
         searchTerm = eval('sp.' + searchMethod +'_query(df)')
         query_results = us.query(query=searchTerm, per_page=30)
         images = us.query_to_display_urls(query_results, dimension=750)
-    
     print('searchTerm ' + searchTerm, flush=True)
     print('searchMethod ' + searchMethod, flush=True)
     print('images ' + str(images.keys()), flush=True)
@@ -99,14 +93,15 @@ def searchImages(playlistID=None):
         return redirect('/spotify/auth')
     else: 
         playlist_dict = sp.get_playlist(playlist_id=playlistID, token=session['user_token'])
-    
     playlist_name = playlist_dict['name']
 
     return render_template('query.html', 
                             user_display_name=session['user_info']['display_name'],
                             images=images, 
                             playlistID=playlistID,
-                            playlist_name=playlist_name)
+                            playlist_name=playlist_name,
+                            searchMethod=searchMethod,
+                            searchTerm=searchTerm)
 
 
 @bp.route('/setimage')

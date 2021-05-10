@@ -21,14 +21,19 @@
 
 
 {% block header_content_2 %}
-                        <div class="container text-center hi">
-                            <p style="font-size: 40px;">
-                                Hi {{ user_display_name }}!
-                            </p>
-                            <p>
-                                Here is a list of your playlists on Spotify. You have created in total {{no_of_playlists}} playlists.
-                            </p>
-                        </div>    
+<div class="container text-center hi">
+    <div class="col-12">
+    <p style="font-size: 40px;">
+        Hi {{ user_display_name }}!
+    </p>
+    <p>
+        Here is a list of your playlists on Spotify. You have created in total {{no_of_playlists}} playlists.
+    </p>
+    </div>
+    <div class="col-12 text-center">
+        <i class="bi bi-file-music" style="font-size:5em"></i> <p>{{no_of_playlists}} playlists</p>
+    </div>
+</div>    
         
 {% endblock %}
 {% block main_content %}

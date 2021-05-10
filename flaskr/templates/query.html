@@ -2,13 +2,10 @@
 
 
 {% block scripts_content %}
-
 <link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
 <link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
 <link type="text/css" href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
-
 {% endblock %}
-
 
 {% block header_content_2 %}
 <div class="container text-center hi">
@@ -21,7 +18,7 @@
     <div class='col-12 mt-5' style='height:20rem;max-height:100%'> 
         <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="80%" height="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
-</div>          
+</div>
 {% endblock %}
 
 {% block main_content %}
@@ -40,7 +37,7 @@
                                 <option value="genre">Genre</option>
                                 <option value="titles">Song titles</option>
                                 <option value="artists">Artists</option>
-                                <option value="random">Random</option>
+                                <option value="random">Random adjectives</option>
                             </select>
                         </div>
                         <div class="col-lg-4">
@@ -52,9 +49,13 @@
                     </div>
             </form>
         </div>
-            
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h4>Click on an image in order to set it as the playlist cover!</h4>
+        </div>
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h6>*Used as search term: {{searchTerm}}</h6>
+        </div>
 
-            <br><br>
             <div class="square-gallery">
             
             {% for pic in images.values() %}
