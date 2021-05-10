@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_extended.html" %}
 
 
 {% block scripts_content %}
@@ -15,35 +15,20 @@
                 return false;
               });
             });
-        </script>
-<link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
-<link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
-<link type="text/css" href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
-        
+        </script>        
 {% endblock %}
 
 
 
-{% block header_content %}
-<div class="container h-100">
-            <div class="row h-100">
-                <div class="col-12">
-                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center text-light">
-                        <h1 class="display-4">Image My Playlist</h1>
-                        <p class="lead">Add fitting, custom playlist images for your own spotify playlists</p>
+{% block header_content_2 %}
                         <div class="container text-center hi">
                             <p style="font-size: 40px;">
                                 Hi {{ user_display_name }}!
                             </p>
                             <p>
-                                Here is a list of your playlists on Spotify.
+                                Here is a list of your playlists on Spotify. You have created in total {{no_of_playlists}} playlists.
                             </p>
-                        </div>
-                </div>
-            </div>
-        </div>
-        
-    
+                        </div>    
         
 {% endblock %}
 {% block main_content %}

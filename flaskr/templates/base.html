@@ -17,8 +17,10 @@
     <meta name="twitter:description" content="Download Fresca - free, open source Bootstrap 4 theme by Themes.guide">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.css" rel="stylesheet">
-    <link href="static/fresca.css" rel="stylesheet">
-    <link href="static/template.css" rel="stylesheet">
+    <link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
+    <link type="text/css" href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+
     {% block scripts_content %}
     {% endblock %}
 </head>

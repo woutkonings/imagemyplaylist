@@ -44,6 +44,10 @@ def create_app(test_config=None):
             print(key + ': ' + dict_headers[key])
         return render_template('home.html')
 
+    @app.route('/test')
+    def test():
+        return render_template('home.html')
+
     @app.route('/about')
     def about():
         return render_template('about.html')

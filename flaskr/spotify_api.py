@@ -12,8 +12,7 @@ import pandas as pd
 import numpy as np
 import itertools
 from statistics import mode
-
-
+from flask import session
 # https://github.com/vanortg/Flask-Spotify-Auth
 
 class Spotify():
@@ -364,7 +363,7 @@ class Spotify():
         return res_list
         
     
-    def get_song_df(self, playlist_id):
+    def get_song_df(self, playlist_id, token=None):
         """
         Creates a dataframe with all the songs in a playlist with various features
         such as artist, artist genres, spotify analysis data etc.
@@ -383,8 +382,9 @@ class Spotify():
 
         """
         #TODO: method comment
-        playlist_dict = self.get_playlist(playlist_id)
-        playlist_dict['tracks']['items'] = self.get_playlist_tracks(playlist_id)
+
+        playlist_dict = self.get_playlist(playlist_id=playlist_id, token=token)
+        playlist_dict['tracks']['items'] = self.get_playlist_tracks(playlist_id, token=token)
         song_ids = [x['track']['id'] for x in playlist_dict['tracks']['items']]
         song_titles = [x['track']['name'] for x in playlist_dict['tracks']['items']]
         song_artists = [x['track']['artists'][0]['name'] for x in playlist_dict['tracks']['items']]

@@ -5,6 +5,7 @@ from .spotify_api import Spotify
 from .config import Config
 from .unsplash import Unsplash
 import random
+import os
 
 sp = Spotify()
 us = Unsplash()
@@ -19,29 +20,27 @@ def display_playlists():
         playlists = sp.getUserPlaylists(session['user_token'])
         
     request_dict = request.args.copy()
-    
     #TODO: make this workflow a post method instead of get in order to fix the problem that showall value is not passed in javascript when query is performed.
-    
     try:
         searchterm = request_dict.pop('searchterm', None)
         if searchterm != 'none':
             playlists = [x for x in playlists if searchterm in x['name']]
     except:
-        'donothing'
+        pass
         # searchterm = 'none'
-        
     try:
         showall = request_dict.pop('showall', None)
         if showall == 'false':
             playlists = [x for x in playlists if len(x['images']) > 1]
     except:
         showall=True
-        
+    no_of_playlists = len(playlists)
     return render_template('playlists.html',
                             user_display_name=session['user_info']['display_name'],
                             playlists_data=playlists,
                             searchterm=searchterm,
-                            showall=showall)
+                            showall=showall,
+                            no_of_playlists=no_of_playlists)
 
 
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])
@@ -49,7 +48,7 @@ def searchImages(playlistID=None):
     
     #TODO: look into different parameters for unsplashed to put into query
     #e.g. make pictures black and white
-    
+    print(os.getcwd())
     if request.method == 'POST':
         try:
             searchMethod = request.form['searchMethod']
@@ -67,17 +66,26 @@ def searchImages(playlistID=None):
         query_results = us.query(query=searchTerm, per_page=30)
         images = us.query_to_display_urls(query_results, dimension=750)
     elif searchMethod == 'random':
-        num = random.randint(1, 4)
-        query = []
-        for i in range(num):
-            query.append('{KEYWORD}')
-        searchTerm = ','.join(query)
-        query_results = us.query(query=searchTerm, per_page=30)
-        images = us.query_to_display_urls(query_results, dimension=750)
-
+        with open(os.path.join(os.getcwd(), 'flaskr/files/adjectives.txt'), 'r') as file:
+            lines = file.readlines()
+            no_of_words = 3
+            query = []
+            for i in range(no_of_words):
+                random_num = random.randint(0, len(lines))
+                query.append(lines[random_num])
+            # num = random.randint(1, 4)
+            # query = []
+            # for i in range(num):
+            #     query.append('{KEYWORD}')
+            searchTerm = ','.join(query)
+            print(query)
+            query_results = us.query(query=searchTerm, per_page=30)
+            images = us.query_to_display_urls(query_results, dimension=750)
     elif searchMethod in Config.SEARCH_OPTIONS: #make sure to add new 
     #search options to config and to the form option list
-        df = sp.get_song_df(playlistID)
+        if session.get('user_token') is None: #check if authentication already done
+            return redirect('/spotify/auth')
+        df = sp.get_song_df(playlistID, token=session.get('user_token'))
         df = df
         searchTerm = eval('sp.' + searchMethod +'_query(df)')
         query_results = us.query(query=searchTerm, per_page=30)
