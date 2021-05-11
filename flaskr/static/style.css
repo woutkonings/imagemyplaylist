@@ -30,6 +30,6 @@
   transition: all 0.2s ease-out;
 }
 
-
-
-
+.searchbar {
+  display: none;
+}

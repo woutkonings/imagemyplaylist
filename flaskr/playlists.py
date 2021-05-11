@@ -28,6 +28,7 @@ def display_playlists():
     except:
         pass
         # searchterm = 'none'
+        
     try:
         showall = request_dict.pop('showall', None)
         if showall == 'false':
@@ -43,16 +44,16 @@ def display_playlists():
                             no_of_playlists=no_of_playlists)
 
 
-
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])
 def searchImages(playlistID=None):
-    
+
     #TODO: look into different parameters for unsplashed to put into query
     #e.g. make pictures black and white
     print(os.getcwd())
     if request.method == 'POST':
         try:
             searchMethod = request.form['searchMethod']
+            print(searchMethod)
         except:
             searchMethod = 'genre'
         try:
@@ -60,7 +61,7 @@ def searchImages(playlistID=None):
         except:
             searchTerm = 'none'
     else:
-        searchMethod = 'genre'
+        searchMethod = 'random'
         searchTerm = 'none'
     if searchTerm != 'none' and searchTerm != '':
         query_results = us.query(query=searchTerm, per_page=30)
@@ -88,13 +89,11 @@ def searchImages(playlistID=None):
     print('searchTerm ' + searchTerm, flush=True)
     print('searchMethod ' + searchMethod, flush=True)
     print('images ' + str(images.keys()), flush=True)
-    
     if session.get('user_token') is None: #check if authentication already done
         return redirect('/spotify/auth')
     else: 
         playlist_dict = sp.get_playlist(playlist_id=playlistID, token=session['user_token'])
     playlist_name = playlist_dict['name']
-
     return render_template('query.html', 
                             user_display_name=session['user_info']['display_name'],
                             images=images, 
@@ -102,7 +101,6 @@ def searchImages(playlistID=None):
                             playlist_name=playlist_name,
                             searchMethod=searchMethod,
                             searchTerm=searchTerm)
-
 
 @bp.route('/setimage')
 def setImage(playlistID=None):
