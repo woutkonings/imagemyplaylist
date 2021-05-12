@@ -99,6 +99,7 @@ def searchImages(playlistID=None):
                             searchMethod=searchMethod,
                             searchTerm=searchTerm)
 
+
 @bp.route('/setimage')
 def setImage(playlistID=None):
     request_dict = request.args.copy()
@@ -107,13 +108,9 @@ def setImage(playlistID=None):
     imageUrl  = request_dict.pop('imageUrl', None)
     for key in request_dict.keys():
         imageUrl = imageUrl + "&" + key + "=" + request_dict.get(key)
-    
     res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
     print(res.status_code, flush=True)
     print(res.reason, flush=True)
-    
-    
-    
     if res.status_code == 202:
         #if accepted return to playlists
         return redirect('/playlists/display')
@@ -127,3 +124,4 @@ def setImage(playlistID=None):
         return redirect(f"/setimage?playlistID={playlistID}&imageUrl={newImageUrl}")
     else:
         return redirect('/playlists/display')
+
