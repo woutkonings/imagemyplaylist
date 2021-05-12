@@ -13,10 +13,29 @@
         Hi {{ user_display_name }}!
     </p>
     <p>
-        Here are some proposed images for the playlist {{playlist_name}}. Click on a picture to set the playlist image or try a different search method.
+        Here are some proposed images for the playlist {{playlist_name}}. Click on a picture to set the playlist image
+        or try a different search method.
     </p>
-    <div class='col-12 mt-5' style='height:20rem;max-height:100%'> 
-        <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="80%" height="100%" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    <div class="row justify-content-center">
+        <div class='col-5 mt-5' id='playlist'>
+            <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="80%" height="100%"
+                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+        {% set playlist_img_url = playlist_dict['images'][0]['url'] %}
+        <div class='col-5 mt-5 '>
+            <div class="card bg-dark text-white hoverarea h-75 w-75" id="hoverarea">
+                <a href="/playlists/query/{{ playlistID }}">
+                    <img src="{{ playlist_img_url }}" style="filter: grayscale(100%);" class="card-img"
+                         alt="...">
+                </a>
+                <div class="card-img-overlay">
+                    <h3 class="card-title">{{ playlist_name }}</h3>
+                    <h5 class="card-subtitle mb-2">Current cover</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="/playlists/query/{{ playlistID }}" class="btn btn-primary">Change the picture</a> -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
@@ -38,8 +57,8 @@
     <div class="col-12 mt-3 mb-3 text-center">
         <h2>Image selection</h2>
     </div>
-            <div class="col-12 justify-content-center">
-            <!-- <form action="/playlists/query/{{playlistID}}#r" method="post">
+    <div class="col-12 justify-content-center">
+        <!-- <form action="/playlists/query/{{playlistID}}#r" method="post">
                     <div class="form-group row">
                         <div class="col-lg-1">
                         </div>
@@ -60,76 +79,79 @@
                         </div>
                     </div>
             </form> -->
-            <form action="/playlists/query/{{playlistID}}" method="post">
+        <form action="/playlists/query/{{playlistID}}" method="post">
             <div class="d-flex flex-column align-items-center">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="searchMethod" id="random" value="random" checked>
-                <label class="form-check-label" for="random">
-                  Random
-                </label>
-              </div>
-              </div>
-              <div class="d-flex flex-column align-items-center">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="searchMethod" id="genre" value="genre">
-                <label class="form-check-label" for="genre">
-                  Genre
-                </label>
-              </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchMethod" id="random" value="random" checked>
+                    <label class="form-check-label" for="random">
+                        Random
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchMethod" id="genre" value="genre">
+                    <label class="form-check-label" for="genre">
+                        Genre
+                    </label>
+                </div>
             </div>
             <div class="d-flex  flex-column align-items-center">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="searchMethod" id="titles" value="titles">
-                <label class="form-check-label" for="titles">
-                    Song titles
-                </label>
-              </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchMethod" id="titles" value="titles">
+                    <label class="form-check-label" for="titles">
+                        Song titles
+                    </label>
+                </div>
             </div>
             <div class="d-flex flex-column align-items-center">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="searchMethod" id="artists" value="artists">
-                <label class="form-check-label" for="artists">
-                    Artists
-                </label>
-              </div>
-              </div>
-              <div class="d-flex flex-column align-items-center">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="searchMethod" id="search" value="search">
-                <label class="form-check-label" for="search">
-                    Search
-                </label>
-              </div>
-              </div>
-              <div class="d-flex justify-content-start">
-              <input class="form-control searchbar" type="text" name="searchTerm" placeholder="Blue swiss lake" aria-label="default input example">
-              </div>
-              <div class="d-flex justify-content-start">
-              <input type="submit" class="btn btn-primary" value="Start image search">
-              </div>
-        </div>
-        
-    </form>
-        <div class="col-12 mt-3 mb-4 text-center">
-            <h4>Click on an image in order to set it as the playlist cover!</h4>
-        </div>
-        <div class="col-12 mt-3 mb-4 text-center">
-            <h6>*Used as search term: {{searchTerm}}</h6>
-        </div>
-
-            <div class="square-gallery">
-            
-            {% for pic in images.values() %}
-                        <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
-                            <a  href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
-                            <img class="gallery-item" src={{ pic|safe }} />
-                            </a>
-                        <!--</a>-->
-                    
-            {% endfor %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchMethod" id="artists" value="artists">
+                    <label class="form-check-label" for="artists">
+                        Artists
+                    </label>
+                </div>
             </div>
-                                
-            <br> <br>
-            
+            <div class="d-flex flex-column align-items-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="searchMethod" id="search" value="search">
+                    <label class="form-check-label" for="search">
+                        Search
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start">
+                <input class="form-control searchbar" type="text" name="searchTerm" placeholder="Blue swiss lake"
+                    aria-label="default input example">
+            </div>
+            <div class="d-flex justify-content-start">
+                <input type="submit" class="btn btn-primary" value="Start image search">
+            </div>
+    </div>
+
+    </form>
+    <div class="col-12 mt-3 mb-4 text-center">
+        <h4>Click on an image in order to set it as the playlist cover!</h4>
+    </div>
+    <div class="col-12 mt-3 mb-4 text-center">
+        <h6>*Used as search term: {{searchTerm}}</h6>
+    </div>
+
+    <div class="square-gallery">
+
+        {% for pic in images.values() %}
+        <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
+        <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+            <img class="gallery-item" src={{ pic|safe }} />
+        </a>
+        <!--</a>-->
+
+        {% endfor %}
+    </div>
+
+    <br> <br>
+
 </section>
+<script src="{{ url_for('static', filename='query.js')}}"></script>
+
 {% endblock %}

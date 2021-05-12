@@ -97,7 +97,8 @@ def searchImages(playlistID=None):
                             playlistID=playlistID,
                             playlist_name=playlist_name,
                             searchMethod=searchMethod,
-                            searchTerm=searchTerm)
+                            searchTerm=searchTerm,
+                            playlist_dict=playlist_dict)
 
 
 @bp.route('/setimage')
@@ -113,7 +114,9 @@ def setImage(playlistID=None):
     print(res.reason, flush=True)
     if res.status_code == 202:
         #if accepted return to playlists
-        return redirect('/playlists/display')
+        return redirect(f'/playlists/query/{playlistID}')
+
+        
     elif res.status_code == 413 and res.reason == 'Request Entity Too Large':
         #decrease the square with 50 pixels until request is accepted
         prevDimension = imageUrl.split('w=')[-1]
@@ -123,4 +126,4 @@ def setImage(playlistID=None):
         newImageUrl = imageUrl.replace('w=' + prevDimension, 'w=' + newDimension)
         return redirect(f"/setimage?playlistID={playlistID}&imageUrl={newImageUrl}")
     else:
-        return redirect('/playlists/display')
+        return redirect(f'/playlists/query/{playlistID}')

@@ -164,11 +164,6 @@ class Spotify():
                 val['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
             if val['owner']['id'] == user_id:
                 list_to_return.append(val)
-        # for item in list_to_return:
-        #     try:
-        #         print(item['images'][0]['url'])
-        #     except:
-        #         print(item['name'])
         return list_to_return
     
     # CODE FOR QUERIES
