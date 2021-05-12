@@ -53,7 +53,8 @@
                     </div>
                     <div class="col-lg-4">
                         Sort by: 
-                        <button class="btn" id="alphabetDown"><i class="bi bi-sort-alpha-down"></i>Alphabet</button> 
+                        <button class="btn" id="alphabetDown"><i class="bi bi-sort-alpha-down"></i></button> 
+                        <button class="btn" id="alphabetUp"><i class="bi bi-sort-alpha-up"></i></button> 
                     </div>
                 
                 
@@ -83,14 +84,14 @@
                         <p> There are no playlists matching your search term. </p>
                     {% endif %}
                     
-                    <div class="card-columns">
+                    <div class="row row-cols-1 row-cols-md-3 g-4 cardDisplay">
                     {% for playlist in playlists_data %}
                         {% set playlist_id = playlist['id'] %}
                         {% set playlist_name = playlist['name'] %}
                         {% set playlist_url = playlist['external_urls']['spotify'] %}
                         {% set playlist_img_url = playlist['images'][0]['url'] %}
                         {% set tracks = playlist['tracks']['href'] %}
-                        <div class="playlistIndiv">
+                        <div class="col playlistIndiv playlistIndivCard">
                         <div class="card">
                                 <a href="/playlists/query/{{ playlist_id }}">
                                     <img src="{{ playlist_img_url }}" class="card-img-top" style="overflow:hidden; object-fit:cover; width:  100%; height:  360px;" alt="...">
@@ -99,9 +100,9 @@
                               <h6 class="card-title">{{ playlist_name }}</h6>
                               <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                               <a href="/playlists/query/{{ playlist_id }}" class="btn btn-primary">Change the picture</a>
-                            </div>
                           </div>
                         </div>
+                    </div>
                     {% endfor %}
                     </div>
                     <div class="listPlaylists">
@@ -121,57 +122,5 @@
                 </div>
             </div>
     </section>
-    <script>
-        srchTerm.addEventListener("input", function (e) {
-            let divs = document.getElementsByClassName('playlistIndiv');
-
-            for (let x = 0; x < divs.length; x++) {
-                let div = divs[x];
-                //let content = div.innerHTML.trim();
-                let div_content = div.textContent.toLowerCase();
-                //(content);
-                if (div_content.includes(this.value.toLowerCase())) {
-                    div.style.display = "inline";
-                }
-                else {
-                    div.style.display = "none";
-                }
-            }
-        });
-    </script>
-    <script>
-        displayList.addEventListener("click", function (e) {
-            let divs = document.getElementsByClassName('card-columns');
-            for (let x = 0; x < divs.length; x++) {
-                let div = divs[x];
-                div.style.display = "none";
-                }
-            
-            let divs2 = document.getElementsByClassName('listPlaylists');
-            for (let x = 0; x < divs2.length; x++) {
-                let div = divs2[x];
-                div.style.display = "inline";
-            }
-        });
-        displayCards.addEventListener("click", function (e) {
-            let divs = document.getElementsByClassName('card-columns');
-            for (let x = 0; x < divs.length; x++) {
-                let div = divs[x];
-                div.style.display = "inline";
-                }
-            
-            let divs2 = document.getElementsByClassName('listPlaylists');
-            for (let x = 0; x < divs2.length; x++) {
-                let div = divs2[x];
-                div.style.display = "none";
-            }
-        });
-    </script>
-    <script>
-        let divs = document.getElementsByClassName('listPlaylists');
-        for (let x = 0; x < divs.length; x++) {
-            let div = divs[x];
-            div.style.display = "none";
-            }
-    </script>
+    <script src="{{ url_for('static', filename='playlist.js')}}"></script>
 {% endblock %}

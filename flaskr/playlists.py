@@ -124,4 +124,3 @@ def setImage(playlistID=None):
         return redirect(f"/setimage?playlistID={playlistID}&imageUrl={newImageUrl}")
     else:
         return redirect('/playlists/display')
-
