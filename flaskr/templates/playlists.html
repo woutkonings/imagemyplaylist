@@ -43,15 +43,12 @@
             
                     <div class="col-lg-4">
                         <form >
-                            <input class="form-control" type="text" id="srchTerm" value="{{searchterm}}" placeholder="Playlist name" name="searchterm">
-                            <a href = "javascript:;" onclick = "this.href='/playlists?searchterm=' + document.getElementById('srchTerm').value + '&"{{showall}}"#searchresults'"> <button class="btn btn-outline-secondary">Search</button> </a>
-                        </form>
-                            <a href="/playlists?searchterm=&showall={{showall}}#searchresults"><button class="btn btn-outline-secondary">Clear</button></a>
-                        
+                            <input class="form-control" type="text" id="srchTerm" placeholder="Playlist name" name="searchterm">
+                        </form>                        
                     </div>
                 
                 
-                {% if showall == "false" %}
+                <!-- {% if showall == "false" %}
                 <div class="pb-2">
                                 <a href="/playlists?searchterm={{searchterm}}&showall=true#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">All playlists</button></a>
                                 <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-primary mr-1" style="width: 250px">Playlists without image</button></a>
@@ -62,7 +59,7 @@
                                 <a href="/playlists?searchterm={{searchterm}}&showall=false#searchresults"><button type="button" class="btn btn-outline-primary" style="width: 250px">Playlists without image</button></a>
                 </div>
                 
-                {% endif %}
+                {% endif %} -->
             </div>
             
             
@@ -101,4 +98,22 @@
                 </div>
             </div>
     </section>
+    <script>
+        srchTerm.addEventListener("input", function (e) {
+            let divs = document.getElementsByClassName('card');
+
+            for (let x = 0; x < divs.length; x++) {
+                let div = divs[x];
+                //let content = div.innerHTML.trim();
+                let div_content = div.textContent.toLowerCase();
+                //(content);
+                if (div_content.includes(this.value.toLowerCase())) {
+                    div.style.display = "inline-block";
+                }
+                else {
+                    div.style.display = "none";
+                }
+            }
+        });
+    </script>
 {% endblock %}

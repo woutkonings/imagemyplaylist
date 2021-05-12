@@ -13,12 +13,10 @@ bp = Blueprint('playlists', __name__, url_prefix='/playlists')
 
 @bp.route('/display')
 def display_playlists():
-
     if session.get('user_token') is None: #check if authentication already done
         return redirect('/spotify/auth')
     else: 
         playlists = sp.getUserPlaylists(session['user_token'])
-        
     request_dict = request.args.copy()
     #TODO: make this workflow a post method instead of get in order to fix the problem that showall value is not passed in javascript when query is performed.
     try:
@@ -27,7 +25,6 @@ def display_playlists():
             playlists = [x for x in playlists if searchterm in x['name']]
     except:
         pass
-        # searchterm = 'none'
         
     try:
         showall = request_dict.pop('showall', None)
@@ -112,9 +109,10 @@ def setImage(playlistID=None):
         imageUrl = imageUrl + "&" + key + "=" + request_dict.get(key)
     
     res = sp.set_playlist_image(playlistID, imageUrl, session['user_token'])
-    
     print(res.status_code, flush=True)
     print(res.reason, flush=True)
+    
+    
     
     if res.status_code == 202:
         #if accepted return to playlists

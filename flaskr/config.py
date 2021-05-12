@@ -20,8 +20,8 @@ class Config():
     #Port and callback url can be changed or ledt to localhost:5000
     # PORT = "2604"
     CALLBACK_URL_EXTERNAL = "https://pixify.nielsbos.nl"
-    # CALLBACK_URL_LOCAL = "http://192.168.1.108:2604" #Niels
-    CALLBACK_URL_LOCAL = "http://127.0.0.1:5000" #Wout
+    CALLBACK_URL_LOCAL = "http://192.168.1.108:2604" #Niels
+    #CALLBACK_URL_LOCAL = "http://127.0.0.1:5000" #Wout
     PATH = "spotify/callback/"
     #Add needed scope from spotify user
     SCOPE = "playlist-modify-private playlist-modify-public user-library-modify user-read-private user-follow-read ugc-image-upload playlist-read-private playlist-read-collaborative"
