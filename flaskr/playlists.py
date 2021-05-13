@@ -8,6 +8,7 @@ import random
 import os
 
 
+
 sp = Spotify()
 us = Unsplash()
 bp = Blueprint('playlists', __name__, url_prefix='/playlists')
@@ -40,6 +41,7 @@ def display_playlists():
                             searchterm=searchterm,
                             showall=showall,
                             no_of_playlists=no_of_playlists)
+
 
 
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])

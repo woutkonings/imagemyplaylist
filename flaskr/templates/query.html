@@ -53,102 +53,65 @@
     });
 </script>
 <section class="container" id="r">
-    <div class="col-12 mt-3 mb-3 text-center">
-        <h2>Image selection</h2>
-    </div>
     <div class="col-12 justify-content-center">
-        <!-- <form action="/playlists/query/{{playlistID}}#r" method="post">
-                    <div class="form-group row">
-                        <div class="col-lg-1">
-                        </div>
-                        <div class="col-lg-4">
-                            <select class="form-control" name="searchMethod" type="text">
-                                <option value="none" selected disabled hidden>Select a different smart paylist search method</option>
-                                <option value="genre">Genre</option>
-                                <option value="titles">Song titles</option>
-                                <option value="artists">Artists</option>
-                                <option value="random">Random adjectives</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-4">
-                            <input class="form-control" name="searchTerm" type="text"  placeholder="or enter your own search term">
-                        </div>
-                        <div class="col-lg-2">
-                            <input type="submit" class="btn btn-primary mr-2" value="Search">
-                        </div>
-                    </div>
-            </form> -->
         <form action="/playlists/query/{{playlistID}}" method="post">
-            <div class="d-flex flex-column align-items-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="searchMethod" id="random" value="random" checked>
-                    <label class="form-check-label" for="random">
-                        Random
-                    </label>
+            <div class="d-flex flex-row gx-4 justify-content-center">
+                <div class="d-inline-flex">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="random"
+                            value="random" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="random">Random</label>
+
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="genre"
+                            value="genre" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="genre">Genre</label>
+
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="titles"
+                            value="titles" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="titles">Song titles</label>
+
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="artists"
+                            value="artists" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="artists">Artists</label>
+
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="search"
+                            value="search" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="search">Custom search</label>
+
+                    </div>
+                </div>
+                <div class="ml-5" id="searchTerm" style="display:none;">
+                    <input class="form-control searchbar" type="text" name="searchTerm" placeholder="Blue swiss lake"
+                        aria-label="default input example">
                 </div>
             </div>
-            <div class="d-flex flex-column align-items-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="searchMethod" id="genre" value="genre">
-                    <label class="form-check-label" for="genre">
-                        Genre
-                    </label>
+            <div class="d-flex flex-row gx-4 justify-content-center mt-3">
+
+                <div class="d-flex justify-content-start">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Start image search" id="submitSearch">
                 </div>
             </div>
-            <div class="d-flex  flex-column align-items-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="searchMethod" id="titles" value="titles">
-                    <label class="form-check-label" for="titles">
-                        Song titles
-                    </label>
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="searchMethod" id="artists" value="artists">
-                    <label class="form-check-label" for="artists">
-                        Artists
-                    </label>
-                </div>
-            </div>
-            <div class="d-flex flex-column align-items-center">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="searchMethod" id="search" value="search">
-                    <label class="form-check-label" for="search">
-                        Search
-                    </label>
-                </div>
-            </div>
-            <div class="d-flex justify-content-start">
-                <input class="form-control searchbar" type="text" name="searchTerm" placeholder="Blue swiss lake"
-                    aria-label="default input example">
-            </div>
-            <div class="d-flex justify-content-start">
-                <input type="submit" class="btn btn-primary" value="Start image search">
-            </div>
-    </div>
+        </form>
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h4>Click on an image in order to set it as the playlist cover!</h4>
+        </div>
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h6>*Used as search term: {{searchTerm}}</h6>
+        </div>
 
-    </form>
-    <div class="col-12 mt-3 mb-4 text-center">
-        <h4>Click on an image in order to set it as the playlist cover!</h4>
-    </div>
-    <div class="col-12 mt-3 mb-4 text-center">
-        <h6>*Used as search term: {{searchTerm}}</h6>
-    </div>
+        <div class="square-gallery">
 
-    <div class="square-gallery">
+            {% for pic in images.values() %}
+            <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
+            <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+                <img class="gallery-item" src={{ pic|safe }} />
+            </a>
+            <!--</a>-->
 
-        {% for pic in images.values() %}
-        <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
-        <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
-            <img class="gallery-item" src={{ pic|safe }} />
-        </a>
-        <!--</a>-->
+            {% endfor %}
+        </div>
 
-        {% endfor %}
-    </div>
-
-    <br> <br>
+        <br> <br>
 
 </section>
 <script src="{{ url_for('static', filename='query.js')}}"></script>

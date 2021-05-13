@@ -13,3 +13,6 @@ div_iframe.style.height = height;
 let iframe = div_iframe.getElementsByTagName('iframe')[0];
 iframe.style.height = height;
 
+search.addEventListener('click', function() {
+   document.getElementById("searchTerm").style.display = 'inline-flex';
+});
