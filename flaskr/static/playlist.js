@@ -5,7 +5,7 @@ for (let x = 0; x < divs.length; x++) {
     div.style.display = "none";
 }
 
-// If displayCards button is clicked, hide list items and display cards
+// If displayCards button is clicked, hide items and display cards
 displayCards.addEventListener("click", function (e) {
     let divs = document.getElementsByClassName('cardDisplay');
     for (let x = 0; x < divs.length; x++) {

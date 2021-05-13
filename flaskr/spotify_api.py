@@ -384,7 +384,7 @@ class Spotify():
         song_titles = [x['track']['name'] for x in playlist_dict['tracks']['items']]
         song_artists = [x['track']['artists'][0]['name'] for x in playlist_dict['tracks']['items']]
         song_artists_ids = [x['track']['artists'][0]['id'] for x in playlist_dict['tracks']['items']]
-        genres = self.get_genres(song_artists_ids)
+        genres = self.get_genres(song_artists_ids, token=token)
         
         df = pd.DataFrame()
         df['ID'] = song_ids
@@ -395,8 +395,8 @@ class Spotify():
         
         # get the audio features and put in dataframe format
         df_add = pd.DataFrame(index = df.index)
-        s = self.get_audio_features(song_ids)
-        df_add['feature'] = self.get_audio_features(song_ids)
+        s = self.get_audio_features(song_ids, token=token)
+        df_add['feature'] = self.get_audio_features(song_ids, token=token)
         df_add = pd.json_normalize(df_add['feature'])
         
         df = pd.concat([df, df_add], axis=1)
