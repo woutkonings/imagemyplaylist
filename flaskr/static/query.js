@@ -1,9 +1,9 @@
 hoverarea.addEventListener('mouseover', function() {
-   document.getElementById("hoverarea").getElementsByTagName("img")[0].style.filter = 'grayscale(0%)';
+   document.getElementById("hoverarea").getElementsByTagName("img")[0].style.filter = 'opacity(100%)';
 });
 
 hoverarea.addEventListener('mouseout', function() {
-    document.getElementById("hoverarea").getElementsByTagName("img")[0].style.filter = 'grayscale(100%)';
+    document.getElementById("hoverarea").getElementsByTagName("img")[0].style.filter = 'opacity(75%)';
  });
  
 let div = document.getElementById("hoverarea");
@@ -16,3 +16,14 @@ iframe.style.height = height;
 search.addEventListener('click', function() {
    document.getElementById("searchTerm").style.display = 'inline-flex';
 });
+document.querySelectorAll('.hoverareaResult').forEach(item => {
+      item.addEventListener('mouseover', function() {
+       item.style.filter = 'opacity(100%)';
+    });
+})
+
+document.querySelectorAll('.hoverareaResult').forEach(item => {
+      item.addEventListener('mouseout', function() {
+       item.style.filter = 'opacity(50%)';
+    });
+})
