@@ -17,19 +17,19 @@
         or try a different search method.
     </p>
     <div class="row justify-content-center">
-        <div class='col-5 mt-5' id='playlist'>
-            <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="80%" height="100%"
+        <div class='col-3 mt-3' id='playlist'>
+            <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="100%" height="100%"
                 frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
         {% set playlist_img_url = playlist_dict['images'][0]['url'] %}
-        <div class='col-5 mt-5 '>
-            <div class="card bg-dark text-white hoverarea h-75 w-75" id="hoverarea">
+        <div class='col-3 mt-3 '>
+            <div class="card bg-dark" id="hoverarea">
                 <a href="/playlists/query/{{ playlistID }}">
-                    <img src="{{ playlist_img_url }}" style="filter: grayscale(100%);" class="card-img" alt="...">
+                    <img src="{{ playlist_img_url }}" style="filter:opacity(75%)" class="card-img" alt="...">
                 </a>
                 <div class="card-img-overlay">
-                    <h2 class="card-title" style="color: #07689F;font-weight:520; ">{{ playlist_name }}</h2>
-                    <h4 class="card-subtitle mb-2" style="color: #07689F ; font-weight:520;">Current cover</h4>
+                    <h2 class="card-title" style="font-weight:520; ">{{ playlist_name }}</h2>
+                    <h4 class="card-subtitle mb-2" style="font-weight:520;">Current cover</h4>
                     <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
                     <!-- <a href="/playlists/query/{{ playlistID }}" class="btn btn-primary">Change the picture</a> -->
                 </div>
@@ -141,7 +141,7 @@
         {% for pic in images.values() %}
         <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
         <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
-            <img class="gallery-item" src={{ pic|safe }} />
+            <img class="gallery-item hoverareaResult" style="filter:opacity(75%)" src={{ pic|safe }} />
         </a>
         <!--</a>-->
 

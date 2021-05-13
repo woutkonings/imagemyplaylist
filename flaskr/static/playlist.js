@@ -134,6 +134,22 @@ for (let i = 0; i < elem.length; i += 2) {
     });
 }
 
+
+// Hover functions for the individual card images
+document.querySelectorAll('.playlistIndivImg').forEach(item => {
+      item.addEventListener('mouseover', function() {
+       item.style.filter = 'opacity(100%)';
+    });
+})
+
+document.querySelectorAll('.playlistIndivImg').forEach(item => {
+      item.addEventListener('mouseout', function() {
+       item.style.filter = 'opacity(75%)';
+    });
+})
+
+
+
 // for (let x = 1; x < divs.length + 1; x++) {
 //     let hoverarea = 'playlist_'.concat(toString(x))
 //     hoverarea.addEventListener(mouseover, function () {

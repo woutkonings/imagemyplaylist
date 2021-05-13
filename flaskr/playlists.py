@@ -42,11 +42,10 @@ def display_playlists():
                             no_of_playlists=no_of_playlists)
 
 
+
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])
 def searchImages(playlistID=None):
 
-    #TODO: look into different parameters for unsplashed to put into query
-    #e.g. make pictures black and white
     print(os.getcwd())
     if request.method == 'POST':
         try:
@@ -100,6 +99,7 @@ def searchImages(playlistID=None):
                             searchMethod=searchMethod,
                             searchTerm=searchTerm,
                             playlist_dict=playlist_dict)
+
 
 
 @bp.route('/setimage')
