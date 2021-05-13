@@ -7,6 +7,7 @@ from .unsplash import Unsplash
 import random
 import os
 
+
 sp = Spotify()
 us = Unsplash()
 bp = Blueprint('playlists', __name__, url_prefix='/playlists')
@@ -116,7 +117,7 @@ def setImage(playlistID=None):
         #if accepted return to playlists
         return redirect(f'/playlists/query/{playlistID}')
 
-        
+
     elif res.status_code == 413 and res.reason == 'Request Entity Too Large':
         #decrease the square with 50 pixels until request is accepted
         prevDimension = imageUrl.split('w=')[-1]

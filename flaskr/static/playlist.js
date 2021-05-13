@@ -125,12 +125,9 @@ function bubbleSort(arr, compare) {
 }
 
 let elem = document.getElementsByClassName('playlistIndivCard');
-alert(elem.length)
 for (let i = 0; i < elem.length; i += 2) {
     let boxa = elem[i].id;
     let element = document.getElementById(boxa)
-    alert(element)
-    alert(boxa);
     elem[i].addEventListener("mouseouver", function () {
         document.getElementById(el).getElementsByTagName("img")[0].style.filter = 'grayscale(50%)';
         alert()
