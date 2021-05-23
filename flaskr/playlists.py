@@ -6,7 +6,7 @@ from .config import Config
 from .unsplash import Unsplash
 import random
 import os
-
+import logging
 
 
 sp = Spotify()
@@ -19,34 +19,16 @@ def display_playlists():
         return redirect('/spotify/auth')
     else: 
         playlists = sp.getUserPlaylists(session['user_token'])
-    request_dict = request.args.copy()
-    #TODO: make this workflow a post method instead of get in order to fix the problem that showall value is not passed in javascript when query is performed.
-    try:
-        searchterm = request_dict.pop('searchterm', None)
-        if searchterm != 'none':
-            playlists = [x for x in playlists if searchterm in x['name']]
-    except:
-        pass
-        
-    try:
-        showall = request_dict.pop('showall', None)
-        if showall == 'false':
-            playlists = [x for x in playlists if len(x['images']) > 1]
-    except:
-        showall=True
     no_of_playlists = len(playlists)
     return render_template('playlists.html',
                             user_display_name=session['user_info']['display_name'],
                             playlists_data=playlists,
-                            searchterm=searchterm,
-                            showall=showall,
                             no_of_playlists=no_of_playlists)
-
 
 
 @bp.route('/query/<playlistID>', methods = ['POST', 'GET'])
 def searchImages(playlistID=None):
-
+    logging.info('got here')
     print(os.getcwd())
     if request.method == 'POST':
         try:
@@ -91,6 +73,7 @@ def searchImages(playlistID=None):
         return redirect('/spotify/auth')
     else: 
         playlist_dict = sp.get_playlist(playlist_id=playlistID, token=session['user_token'])
+        
     playlist_name = playlist_dict['name']
     return render_template('query.html', 
                             user_display_name=session['user_info']['display_name'],

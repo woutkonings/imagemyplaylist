@@ -1,25 +1,5 @@
 {% extends "base_extended.html" %}
 
-
-{% block scripts_content %}
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type=text/javascript>
-            $(function() {
-              $('a#process_input').bind('click', function() {
-                $.getJSON('/searchplaylists', {
-                  searchterm: $('input[name="searchterm"]').val(),
-                }, function(data) {
-                  $("#playlists_data_return").text(data.playlists_data);
-                });
-                return false;
-              });
-            });
-        </script>
-{% endblock %}
-
-
-
 {% block header_content_2 %}
 <div class="container text-center hi">
     <div class="col-12">

@@ -7,6 +7,7 @@ from . import spotify
 from . import playlists
 from flaskr.config import Config
 import random
+import logging
 
 
 def create_app(test_config=None):
@@ -16,7 +17,7 @@ def create_app(test_config=None):
         SECRET_KEY='devdevdev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    
+    logging.basicConfig(filename='demo.log', level=logging.DEBUG)
     sp = Spotify()
     us = Unsplash()
 
@@ -40,7 +41,16 @@ def create_app(test_config=None):
 
     @app.get('/')
     def home():
-        return render_template('home.html')
+        random_int_0 = random.randint(1,10)
+        results = us.query(query='beautiful_nature', page=random_int_0, per_page=30)
+        
+        images = us.query_to_display_urls(results, dimension=750)
+        keys = list(images.keys())
+        random_int = random.randint(0,30)
+
+
+        app.logger.info(images)
+        return render_template('home.html', pic_url = images[keys[random_int]])
 
 
     @app.get('/about')

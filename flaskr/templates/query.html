@@ -25,7 +25,7 @@
         <div class='col-3 mt-3 '>
             <div class="card bg-dark" id="hoverarea">
                 <a href="/playlists/query/{{ playlistID }}">
-                    <img src="{{ playlist_img_url }}" style="filter:opacity(75%)" class="card-img" alt="...">
+                    <img src="{{ playlist_img_url }}" style="filter:opacity(75%)" class="card-img" id="playlistImage" alt="...">
                 </a>
                 <div class="card-img-overlay">
                     <h2 class="card-title" style="font-weight:520; ">{{ playlist_name }}</h2>
@@ -40,7 +40,7 @@
 {% endblock %}
 
 {% block main_content %}
-<script type=text/javascript>
+<!-- <script type=text/javascript>
     $(document).ready(function () {
         $('input[type=radio][name=searchMethod]').change(function() {
             if (this.value == 'search') {
@@ -51,26 +51,26 @@
             }
         });
     });
-</script>
+</script> -->
 <section class="container" id="r">
     <div class="col-12 justify-content-center">
         <form action="/playlists/query/{{playlistID}}" method="post">
             <div class="d-flex flex-row gx-4 justify-content-center">
                 <div class="d-inline-flex">
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="random"
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="random"
                             value="random" autocomplete="off" checked>
                         <label class="btn btn-outline-primary" for="random">Random</label>
 
-                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="genre"
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="genre"
                             value="genre" autocomplete="off">
                         <label class="btn btn-outline-primary" for="genre">Genre</label>
 
-                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="titles"
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="titles"
                             value="titles" autocomplete="off">
                         <label class="btn btn-outline-primary" for="titles">Song titles</label>
 
-                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="artists"
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="artists"
                             value="artists" autocomplete="off">
                         <label class="btn btn-outline-primary" for="artists">Artists</label>
 
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="ml-5" id="searchTerm" style="display:none;">
-                    <input class="form-control searchbar" type="text" name="searchTerm" placeholder="Blue swiss lake"
+                    <input class="form-control" type="text" name="searchTerm" placeholder="Blue swiss lake"
                         aria-label="default input example">
                 </div>
             </div>

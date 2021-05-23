@@ -13,12 +13,23 @@ div_iframe.style.height = height;
 let iframe = div_iframe.getElementsByTagName('iframe')[0];
 iframe.style.height = height;
 
+
 search.addEventListener('click', function() {
    document.getElementById("searchTerm").style.display = 'inline-flex';
 });
+
+document.querySelectorAll('.nonSearch').forEach(item => {
+   item.addEventListener('click', function() {
+      document.getElementById("searchTerm").style.display = 'none';
+ });
+})
+
+
 document.querySelectorAll('.hoverareaResult').forEach(item => {
       item.addEventListener('mouseover', function() {
        item.style.filter = 'opacity(100%)';
+       img_url = item.getAttribute('src');
+       document.getElementById('playlistImage').src = img_url
     });
 })
 

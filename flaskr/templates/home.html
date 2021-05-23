@@ -1,12 +1,20 @@
 {% extends "base_extended.html" %}
 {% block header_content_2 %}
 <div class = "row justify-content-md-center">
+    
     <div class="col col-lg-3">
         <a href="/playlists/display" class="btn btn-outline-light btn-lg">
             Start uploading playlists
         </a>
     </div>
+   
+    <div class="col-3">
+    <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+        <img class="gallery-item hoverareaResult" style="filter:opacity(75%)"  class="img-fluid" src={{ pic_url|safe }} />
+    </a></div>
 </div>
+
+
 {% endblock %}
 {% block main_content %}
 

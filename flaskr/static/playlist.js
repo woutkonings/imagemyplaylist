@@ -88,8 +88,8 @@ const Compare = {
 };
 
 function compareAlphabetDown(a, b) {
-    let playlist_name_a = a.getElementsByClassName('card-title')[0].textContent
-    let playlist_name_b = b.getElementsByClassName('card-title')[0].textContent
+    let playlist_name_a = a.getElementsByClassName('card-title')[0].textContent.toLowerCase()
+    let playlist_name_b = b.getElementsByClassName('card-title')[0].textContent.toLowerCase()
     if (playlist_name_a === playlist_name_b) {
         return 0;
     }
@@ -124,15 +124,15 @@ function bubbleSort(arr, compare) {
     return order_array;
 }
 
-let elem = document.getElementsByClassName('playlistIndivCard');
-for (let i = 0; i < elem.length; i += 2) {
-    let boxa = elem[i].id;
-    let element = document.getElementById(boxa)
-    elem[i].addEventListener("mouseouver", function () {
-        document.getElementById(el).getElementsByTagName("img")[0].style.filter = 'grayscale(50%)';
-        alert()
-    });
-}
+// let elem = document.getElementsByClassName('playlistIndivCard');
+// for (let i = 0; i < elem.length; i += 2) {
+//     let boxa = elem[i].id;
+//     let element = document.getElementById(boxa)
+//     elem[i].addEventListener("mouseouver", function () {
+//         document.getElementById(el).getElementsByTagName("img")[0].style.filter = 'grayscale(50%)';
+//         alert()
+//     });
+// }
 
 
 // Hover functions for the individual card images
@@ -144,7 +144,7 @@ document.querySelectorAll('.playlistIndivImg').forEach(item => {
 
 document.querySelectorAll('.playlistIndivImg').forEach(item => {
       item.addEventListener('mouseout', function() {
-       item.style.filter = 'opacity(75%)';
+      item.style.filter = 'opacity(75%)';
     });
 })
 
@@ -160,3 +160,4 @@ document.querySelectorAll('.playlistIndivImg').forEach(item => {
 //         document.getElementById("hoverarea").getElementsByTagName("img")[0].style.filter = 'grayscale(100%)';
 //     });
 // }
+
