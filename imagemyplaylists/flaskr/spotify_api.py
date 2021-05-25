@@ -440,6 +440,7 @@ class Spotify():
 
         """
         artists = list(df['Artist'])
+        print(artists)
         merged = list(itertools.chain(*artists))
         query = mode(merged)
         

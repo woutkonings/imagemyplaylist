@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block scripts_content %}
+<link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block header_content %}
+<div class="container h-100">
+            <div class="row h-100">
+                <div class="col-12">
+                    <div class="text-center m-0 vh-100 d-flex flex-column justify-content-center text-light">
+                        <p class="lead">We need your Spotify authentication in order to load your current playlist images and to be able to change your current playlist image.</p>
+                        <p class="lead">More specifically, the scopes we require are:</p>
+                        {{scopes}}
+                        <p class="lead">For more information refer to the <a href="https://developer.spotify.com/documentation/general/guides/scopes/#scopes" style="color:red;"> Spotify API</a>  
+                        or take a look at our <a href="/privacy" style="color:red;"> Privacy Policy</a> 
+                        </p>
+                </div>
+            </div>
+        </div>
+{% endblock %}
