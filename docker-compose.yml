@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  ardashboard:
+    build: 
+      context: ./imagemyplaylists
+      dockerfile: Dockerfile
+    container_name: imagemyplaylists
+    volumes:
+      - ./imagemyplaylists:/usr/src/app
+    ports:
+      - 5010:8080
+    command: ["gunicorn", "--reload", "-b", "0.0.0.0:8080", "flaskr:create_app()"]
+    restart: unless-stopped
