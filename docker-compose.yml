@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  ardashboard:
+  spotifypics:
     build: 
       context: ./imagemyplaylists
       dockerfile: Dockerfile

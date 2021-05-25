@@ -5309,3 +5309,7 @@ Traceback (most recent call last):
 jinja2.exceptions.TemplateNotFound: 404.html
 DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): accounts.spotify.com:443
 DEBUG:urllib3.connectionpool:https://accounts.spotify.com:443 "POST /api/token HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): accounts.spotify.com:443
+DEBUG:urllib3.connectionpool:https://accounts.spotify.com:443 "POST /api/token HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): accounts.spotify.com:443
+DEBUG:urllib3.connectionpool:https://accounts.spotify.com:443 "POST /api/token HTTP/1.1" 200 None
