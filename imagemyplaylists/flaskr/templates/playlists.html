@@ -1,0 +1,100 @@
+{% extends "base_extended.html" %}
+
+{% block header_content_2 %}
+<div class="container text-center hi">
+    <div class="col-12">
+        <p style="font-size: 40px;">
+            Hi {{ user_display_name }}!
+        </p>
+        <p>
+            Here is a list of your playlists on Spotify. You have created in total {{no_of_playlists}} playlists.
+        </p>
+    </div>
+    <div class="col-12 text-center">
+        <i class="bi bi-file-music" style="font-size:5em"></i>
+        <p>{{no_of_playlists}} playlists</p>
+    </div>
+</div>
+
+{% endblock %}
+{% block main_content %}
+<section class="container" id="searchresults">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <form>
+                <input class="form-control" type="text" id="srchTerm" placeholder="Playlist name" name="searchterm">
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <!-- <input type="button" id="displayList"> -->
+            <button class="btn" id="displayList"><i class="bi bi-list"></i></button>
+            <button class="btn" id="displayCards"><i class="bi bi-square"></i></button>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-2 d-flex justify-content-center align-items-center" style="display:flex;">
+            <h6 class="mb-0">Sort</h6>
+        </div>
+        <div class="col-10">
+            <button class="btn" id="spotifyOrder"><i class="fab fa-spotify"></i></button>
+            <button class="btn" id="alphabetDown"><i class="bi bi-sort-alpha-down"></i></button>
+            <button class="btn" id="alphabetUp"><i class="bi bi-sort-alpha-up"></i></button>
+        </div>
+        </div>
+
+        </div>
+    </div>
+
+    <div class="container h-100">
+        <div class="row">
+
+
+            {% if playlists_data|length == 0 %}
+            <p> There are no playlists matching your search term. </p>
+            {% endif %}
+
+            <div class="row row-cols-1 row-cols-md-3 g-4 cardDisplay">
+                <!-- {% set counter = 0 %} -->
+                {% for playlist in playlists_data %}
+                {% set playlist_id = playlist['id'] %}
+                {% set playlist_name = playlist['name'] %}
+                {% set playlist_url = playlist['external_urls']['spotify'] %}
+                {% set playlist_img_url = playlist['images'][0]['url'] %}
+                {% set tracks = playlist['tracks']['href'] %}
+                {% set playlist_no = 'playlist_' ~ loop.index %}
+                <div class="col playlistIndiv playlistIndivCard" id="{{playlist_no}}">
+                    <div class="card" id={}>
+                        <a href="/playlists/query/{{ playlist_id }}">
+                            <img src="{{ playlist_img_url }}" class="card-img-top playlistIndivImg"
+                                style="filter:opacity(75%); overflow:hidden; object-fit:cover; width:  100%; height:  360px;" alt="...">
+                        </a>
+                        <div class="card-body">
+                            <h6 class="card-title">{{ playlist_name }}</h6>
+                            <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                            <a href="/playlists/query/{{ playlist_id }}" class="btn btn-primary">Change the picture</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- {% set counter = counter + 1 %} -->
+                {% endfor %}
+            </div>
+            <div class="listPlaylists">
+                <ul class="list-group">
+                    {% for playlist in playlists_data %}
+                    {% set playlist_id = playlist['id'] %}
+                    {% set playlist_name = playlist['name'] %}
+                    {% set playlist_url = playlist['external_urls']['spotify'] %}
+                    {% set playlist_img_url = playlist['images'][0]['url'] %}
+                    {% set tracks = playlist['tracks']['href'] %}
+                    <div class="playlistIndiv">
+                        <li class="list-group-item">{{playlist_name}}</li>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="{{ url_for('static', filename='playlist.js')}}"></script>
+{% endblock %}

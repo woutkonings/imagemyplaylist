@@ -12,8 +12,7 @@ import pandas as pd
 import numpy as np
 import itertools
 from statistics import mode
-
-
+from flask import session
 # https://github.com/vanortg/Flask-Spotify-Auth
 
 class Spotify():
@@ -140,22 +139,15 @@ class Spotify():
         return res.json()
     
     def getUserPlaylists(self, userToken):
-        
-        
-        
-        
-        
         headers = {
                         "Authorization": "Bearer " + userToken
                         }
-        
-        
         userUrl = 'https://api.spotify.com/v1/me'
         user_id = requests.get(url=userUrl, headers=headers).json()['id']
         
-        
         userPlaylistUrl =  'https://api.spotify.com/v1/me/playlists'
         
+        # Retrieving all playlists data from spotify API
         res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50}).json()
         total = res['total']
         items = res['items']
@@ -164,22 +156,15 @@ class Spotify():
             res = requests.get(url=userPlaylistUrl, headers=headers, params={'limit':50, 'offset': offset}).json()
             offset = offset + 50
             items.extend(res['items'])
-        for i, val in enumerate(items.copy()):
-            # print(val['name'] + ' - ' + val['id'] + val['external_urls']['spotify'] + ' - ' + val['images'][0]['url'] + ' - ' + val['tracks']['href'])
+        
+        # Filtering the retrieved data on 1) having an image 2) owned by the user
+        list_to_return = list()
+        for i, val in enumerate(items):
             if len(val['images']) == 0:
-                items[i]['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
-            if val['owner']['id'] != user_id:
-                items.remove(val)
-            # try: 
-            #     val['images'][0]
-            # except:
-            #     items.pop(i)
-        # for item in items:
-        #     try:
-        #         print(item['images'][0]['url'])
-        #     except:
-        #         print(item['name'])
-        return items
+                val['images'] = [{'url' : Config.QUESTION_SQUARE_URL}]
+            if val['owner']['id'] == user_id:
+                list_to_return.append(val)
+        return list_to_return
     
     # CODE FOR QUERIES
     
@@ -373,7 +358,7 @@ class Spotify():
         return res_list
         
     
-    def get_song_df(self, playlist_id):
+    def get_song_df(self, playlist_id, token=None):
         """
         Creates a dataframe with all the songs in a playlist with various features
         such as artist, artist genres, spotify analysis data etc.
@@ -392,13 +377,14 @@ class Spotify():
 
         """
         #TODO: method comment
-        playlist_dict = self.get_playlist(playlist_id)
-        playlist_dict['tracks']['items'] = self.get_playlist_tracks(playlist_id)
+
+        playlist_dict = self.get_playlist(playlist_id=playlist_id, token=token)
+        playlist_dict['tracks']['items'] = self.get_playlist_tracks(playlist_id, token=token)
         song_ids = [x['track']['id'] for x in playlist_dict['tracks']['items']]
         song_titles = [x['track']['name'] for x in playlist_dict['tracks']['items']]
         song_artists = [x['track']['artists'][0]['name'] for x in playlist_dict['tracks']['items']]
         song_artists_ids = [x['track']['artists'][0]['id'] for x in playlist_dict['tracks']['items']]
-        genres = self.get_genres(song_artists_ids)
+        genres = self.get_genres(song_artists_ids, token=token)
         
         df = pd.DataFrame()
         df['ID'] = song_ids
@@ -409,8 +395,8 @@ class Spotify():
         
         # get the audio features and put in dataframe format
         df_add = pd.DataFrame(index = df.index)
-        s = self.get_audio_features(song_ids)
-        df_add['feature'] = self.get_audio_features(song_ids)
+        s = self.get_audio_features(song_ids, token=token)
+        df_add['feature'] = self.get_audio_features(song_ids, token=token)
         df_add = pd.json_normalize(df_add['feature'])
         
         df = pd.concat([df, df_add], axis=1)
@@ -454,6 +440,7 @@ class Spotify():
 
         """
         artists = list(df['Artist'])
+        print(artists)
         merged = list(itertools.chain(*artists))
         query = mode(merged)
         

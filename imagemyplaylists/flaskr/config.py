@@ -9,19 +9,23 @@ Created on Thu Apr 15 22:34:10 2021
 
 class Config():
     
-    # SPOTIFY_CLIENT_ID  = '3ddb444f64434d81929090cdadd76b3d' #Niels
-    # SPOTIFY_CLIENT_SECRET = '2ce0f93bbcf84328830798bbe7f1e014' #Niels
-    SPOTIFY_CLIENT_ID  = '9f60eb0d6eef428da8aa960f14074eda' #Wout
-    SPOTIFY_CLIENT_SECRET = '9e77a91ab0014354bbef9abd03f0f822' #Wout
+    #SPOTIFY_CLIENT_ID  = '3ddb444f64434d81929090cdadd76b3d' #Niels
+    #SPOTIFY_CLIENT_SECRET = '2ce0f93bbcf84328830798bbe7f1e014' #Niels
+    # SPOTIFY_CLIENT_ID  = '9f60eb0d6eef428da8aa960f14074eda' #Wout int
+    # SPOTIFY_CLIENT_SECRET = '9e77a91ab0014354bbef9abd03f0f822' #Wout int
+    SPOTIFY_CLIENT_ID  = '4234087547434e9d8975aca70b6d537d' #Wout ext
+    SPOTIFY_CLIENT_SECRET = 'd0f6af83441c467c8a1d6ddb61a9e348' #Wout ext
     SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/nl/authorize/?'
     SPOTIFY_URL_TOKEN = 'https://accounts.spotify.com/api/token/'
     RESPONSE_TYPE = 'code'   
     HEADER = 'application/x-www-form-urlencoded'
     #Port and callback url can be changed or ledt to localhost:5000
     # PORT = "2604"
-    CALLBACK_URL_EXTERNAL = "https://pixify.nielsbos.nl"
-    # CALLBACK_URL_LOCAL = "http://192.168.1.108:2604" #Niels
-    CALLBACK_URL_LOCAL = "http://127.0.0.1:5000" #Wout
+    
+    #CALLBACK_URL_EXTERNAL = "https://pixify.nielsbos.nl"
+    CALLBACK_URL_EXTERNAL = "https://spotify.pics"
+    CALLBACK_URL_LOCAL = "http://192.168.1.108:2604" #Niels
+    # CALLBACK_URL_LOCAL = "http://127.0.0.1:5000" #Wout
     PATH = "spotify/callback/"
     #Add needed scope from spotify user
     SCOPE = "playlist-modify-private playlist-modify-public user-library-modify user-read-private user-follow-read ugc-image-upload playlist-read-private playlist-read-collaborative"

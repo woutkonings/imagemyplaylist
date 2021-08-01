@@ -1,0 +1,6 @@
+Flask
+flask-restful
+psycopg2
+requests
+gunicorn
+statistics

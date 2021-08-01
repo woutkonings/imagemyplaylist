@@ -1,0 +1,119 @@
+{% extends "base_extended.html" %}
+
+
+{% block scripts_content %}
+<link href="{{url_for('static', filename='fresca.css')}}" rel="stylesheet">
+<link href="{{url_for('static', filename='template.css')}}" rel="stylesheet">
+<link type="text/css" href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block header_content_2 %}
+<div class="container text-center hi">
+    <p style="font-size: 40px;">
+        Hi {{ user_display_name }}!
+    </p>
+    <p>
+        Here are some proposed images for the playlist {{playlist_name}}. Click on a picture to set the playlist image
+        or try a different search method.
+    </p>
+    <div class="row justify-content-center">
+        <div class='col-3 mt-3' id='playlist'>
+            <iframe src="https://open.spotify.com/embed/playlist/{{playlistID}}" width="100%" height="100%"
+                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        </div>
+        {% set playlist_img_url = playlist_dict['images'][0]['url'] %}
+        <div class='col-3 mt-3 '>
+            <div class="card bg-dark" id="hoverarea">
+                <a href="/playlists/query/{{ playlistID }}">
+                    <img src="{{ playlist_img_url }}" style="filter:opacity(75%)" class="card-img" id="playlistImage" alt="...">
+                </a>
+                <div class="card-img-overlay">
+                    <h2 class="card-title" style="font-weight:520; ">{{ playlist_name }}</h2>
+                    <h4 class="card-subtitle mb-2" style="font-weight:520;">Current cover</h4>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="/playlists/query/{{ playlistID }}" class="btn btn-primary">Change the picture</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main_content %}
+<!-- <script type=text/javascript>
+    $(document).ready(function () {
+        $('input[type=radio][name=searchMethod]').change(function() {
+            if (this.value == 'search') {
+                $('.searchbar').show();
+            }
+            if (this.value != 'search') {
+                $('.searchbar').hide();
+            }
+        });
+    });
+</script> -->
+<section class="container" id="r">
+    <div class="col-12 justify-content-center">
+        <form action="/playlists/query/{{playlistID}}" method="post">
+            <div class="d-flex flex-row gx-4 justify-content-center">
+                <div class="d-inline-flex">
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="random"
+                            value="random" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="random">Random</label>
+
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="genre"
+                            value="genre" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="genre">Genre</label>
+
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="titles"
+                            value="titles" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="titles">Song titles</label>
+
+                        <input type="radio" class="btn-check form-check-input nonSearch" name="searchMethod" id="artists"
+                            value="artists" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="artists">Artists</label>
+
+                        <input type="radio" class="btn-check form-check-input" name="searchMethod" id="search"
+                            value="search" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="search">Custom search</label>
+
+                    </div>
+                </div>
+                <div class="ml-5" id="searchTerm" style="display:none;">
+                    <input class="form-control" type="text" name="searchTerm" placeholder="Blue swiss lake"
+                        aria-label="default input example">
+                </div>
+            </div>
+            <div class="d-flex flex-row gx-4 justify-content-center mt-3">
+
+                <div class="d-flex justify-content-start">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Start image search" id="submitSearch">
+                </div>
+            </div>
+        </form>
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h4>Click on an image in order to set it as the playlist cover!</h4>
+        </div>
+        <div class="col-12 mt-3 mb-4 text-center">
+            <h6>*Used as search term: {{searchTerm}}</h6>
+        </div>
+
+        <div class="square-gallery">
+
+        {% for pic in images.values() %}
+        <!--<a class="gallery-item" href="/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}"> -->
+        <a href="/playlists/setimage?playlistID={{ playlistID }}&imageUrl={{ pic }}">
+            <img class="gallery-item hoverareaResult" style="filter:opacity(75%)" src={{ pic|safe }} />
+        </a>
+        <!--</a>-->
+
+            {% endfor %}
+        </div>
+
+        <br> <br>
+
+</section>
+<script src="{{ url_for('static', filename='query.js')}}"></script>
+
+{% endblock %}

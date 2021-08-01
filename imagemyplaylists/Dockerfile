@@ -1,4 +1,4 @@
-FROM bo3s/pandas_numpy:3.8.9
+FROM bo3s/pandas_numpy:3.9.5
 
 WORKDIR /usr/src/app
 

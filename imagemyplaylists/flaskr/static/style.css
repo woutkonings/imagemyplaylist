@@ -1,0 +1,35 @@
+.square-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gallery-item {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 0;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.gallery-div {
+  display: flex;
+  justify-content: center;
+  width: calc(100% / 3);
+  height: calc(100% / 3);
+  padding-bottom: calc(100% / 3); 
+  background-color: #ffffff;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: all 0.2s ease-out;
+}
+
+.searchbar {
+  display: none;
+}
